@@ -22,19 +22,19 @@
 
   <meta name="description" content="题目给定两个大小为 m 和 n 的正序（从小到大）数组 $nums1$ 和 $nums2$。请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 $O(log(m + n))$。你可以假设 nums1 和 nums2 不会同时为空。 示例 1:12nums1 &#x3D; [1, 3]nums2 &#x3D; [2]则中位数是 2.0示例 2:12nums1 &#x3D; [1, 2]num">
 <meta property="og:type" content="article">
-<meta property="og:title" content="两正序数组的中位数-两正序数组的第K小元素">
-<meta property="og:url" content="http://yoursite.com/2020/06/29/%E4%B8%A4%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0-%E4%B8%A4%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E7%AC%ACK%E5%B0%8F%E5%85%83%E7%B4%A0/index.html">
+<meta property="og:title" content="LC4-两正序数组的中位数-两正序数组的第K小元素">
+<meta property="og:url" content="http://yoursite.com/2020/06/29/LC4-%E4%B8%A4%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0-%E4%B8%A4%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E7%AC%ACK%E5%B0%8F%E5%85%83%E7%B4%A0/index.html">
 <meta property="og:site_name" content="Haitao&#39;s Blog">
 <meta property="og:description" content="题目给定两个大小为 m 和 n 的正序（从小到大）数组 $nums1$ 和 $nums2$。请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 $O(log(m + n))$。你可以假设 nums1 和 nums2 不会同时为空。 示例 1:12nums1 &#x3D; [1, 3]nums2 &#x3D; [2]则中位数是 2.0示例 2:12nums1 &#x3D; [1, 2]num">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-06-28T16:42:09.000Z">
-<meta property="article:modified_time" content="2020-06-28T18:09:34.705Z">
+<meta property="article:modified_time" content="2020-07-04T08:18:19.321Z">
 <meta property="article:author" content="haitao">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="leetcode">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/06/29/%E4%B8%A4%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0-%E4%B8%A4%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E7%AC%ACK%E5%B0%8F%E5%85%83%E7%B4%A0/">
+<link rel="canonical" href="http://yoursite.com/2020/06/29/LC4-%E4%B8%A4%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0-%E4%B8%A4%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E7%AC%ACK%E5%B0%8F%E5%85%83%E7%B4%A0/">
 
 
 <script id="page-configurations">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>两正序数组的中位数-两正序数组的第K小元素 | Haitao's Blog</title>
+  <title>LC4-两正序数组的中位数-两正序数组的第K小元素 | Haitao's Blog</title>
   
 
 
@@ -168,7 +168,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/29/%E4%B8%A4%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0-%E4%B8%A4%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E7%AC%ACK%E5%B0%8F%E5%85%83%E7%B4%A0/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/29/LC4-%E4%B8%A4%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0-%E4%B8%A4%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E7%AC%ACK%E5%B0%8F%E5%85%83%E7%B4%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -181,7 +181,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          两正序数组的中位数-两正序数组的第K小元素
+          LC4-两正序数组的中位数-两正序数组的第K小元素
         </h1>
 
         <div class="post-meta">
@@ -190,10 +190,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-06-29 00:42:09 / Modified: 02:09:34" itemprop="dateCreated datePublished" datetime="2020-06-29T00:42:09+08:00">2020-06-29</time>
+              <time title="Created: 2020-06-29 00:42:09" itemprop="dateCreated datePublished" datetime="2020-06-29T00:42:09+08:00">2020-06-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-04 16:18:19" itemprop="dateModified" datetime="2020-07-04T16:18:19+08:00">2020-07-04</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -256,8 +262,8 @@ median(nums1 \cup nums2) = KthMin(nums1,nums2,(len(nums1)+len(nums2)+1)/2)</scri
       <i class="fa fa-chevron-left"></i> 数据库原理大作业/database-coursework
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/06/30/%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" rel="next" title="最长回文子串">
-      最长回文子串 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/06/30/LC5-%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" rel="next" title="LC5-最长回文子串">
+      LC5-最长回文子串 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -331,7 +337,7 @@ median(nums1 \cup nums2) = KthMin(nums1,nums2,(len(nums1)+len(nums2)+1)/2)</scri
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -344,7 +350,7 @@ median(nums1 \cup nums2) = KthMin(nums1,nums2,(len(nums1)+len(nums2)+1)/2)</scri
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
