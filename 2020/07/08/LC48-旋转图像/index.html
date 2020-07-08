@@ -20,24 +20,22 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="题目给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。candidates 中的数字可以无限制重复被选取。 说明：所有数字（包括 target）都是正整数。解集不能包含重复的组合。示例 1:123456输入: candidates &#x3D; [2,3,6,7], target &#x3D; 7,">
+  <meta name="description" content="题目给定一个 n × n 的二维矩阵表示一个图像。将图像顺时针旋转 90 度。说明： 你必须在原地旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要使用另一个矩阵来旋转图像。1234567891011121314示例 1:给定 matrix &#x3D; [  [1,2,3],  [4,5,6],  [7,8,9]],原地旋转输入矩阵，使其变为:[  [7,4,1],  [8,5,2],  [">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LC39-组合总和">
-<meta property="og:url" content="http://yoursite.com/2020/07/07/LC39-%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/index.html">
+<meta property="og:title" content="LC48-旋转图像">
+<meta property="og:url" content="http://yoursite.com/2020/07/08/LC48-%E6%97%8B%E8%BD%AC%E5%9B%BE%E5%83%8F/index.html">
 <meta property="og:site_name" content="Haitao&#39;s Blog">
-<meta property="og:description" content="题目给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。candidates 中的数字可以无限制重复被选取。 说明：所有数字（包括 target）都是正整数。解集不能包含重复的组合。示例 1:123456输入: candidates &#x3D; [2,3,6,7], target &#x3D; 7,">
+<meta property="og:description" content="题目给定一个 n × n 的二维矩阵表示一个图像。将图像顺时针旋转 90 度。说明： 你必须在原地旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要使用另一个矩阵来旋转图像。1234567891011121314示例 1:给定 matrix &#x3D; [  [1,2,3],  [4,5,6],  [7,8,9]],原地旋转输入矩阵，使其变为:[  [7,4,1],  [8,5,2],  [">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/2020/07/07/LC39-%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/msedge_vZyLj7JXRS.png">
-<meta property="article:published_time" content="2020-07-06T22:48:31.000Z">
-<meta property="article:modified_time" content="2020-07-07T01:01:02.019Z">
+<meta property="article:published_time" content="2020-07-08T00:19:05.000Z">
+<meta property="article:modified_time" content="2020-07-08T01:15:31.005Z">
 <meta property="article:author" content="haitao">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="leetcode">
-<meta property="article:tag" content="回溯算法">
+<meta property="article:tag" content="数组">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/07/07/LC39-%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/msedge_vZyLj7JXRS.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/07/07/LC39-%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/">
+<link rel="canonical" href="http://yoursite.com/2020/07/08/LC48-%E6%97%8B%E8%BD%AC%E5%9B%BE%E5%83%8F/">
 
 
 <script id="page-configurations">
@@ -50,7 +48,7 @@
   };
 </script>
 
-  <title>LC39-组合总和 | Haitao's Blog</title>
+  <title>LC48-旋转图像 | Haitao's Blog</title>
   
 
 
@@ -171,7 +169,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/07/LC39-%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/08/LC48-%E6%97%8B%E8%BD%AC%E5%9B%BE%E5%83%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -184,7 +182,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          LC39-组合总和
+          LC48-旋转图像
         </h1>
 
         <div class="post-meta">
@@ -195,7 +193,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-07-07 06:48:31 / Modified: 09:01:02" itemprop="dateCreated datePublished" datetime="2020-07-07T06:48:31+08:00">2020-07-07</time>
+              <time title="Created: 2020-07-08 08:19:05 / Modified: 09:15:31" itemprop="dateCreated datePublished" datetime="2020-07-08T08:19:05+08:00">2020-07-08</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -218,10 +216,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。candidates 中的数字可以无限制重复被选取。</p>
-<p>说明：<br>所有数字（包括 target）都是正整数。<br>解集不能包含重复的组合。<br>示例 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入: candidates &#x3D; [2,3,6,7], target &#x3D; 7,</span><br><span class="line">所求解集为:</span><br><span class="line">[</span><br><span class="line">  [7],</span><br><span class="line">  [2,2,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
-<p>示例 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入: candidates &#x3D; [2,3,5], target &#x3D; 8,</span><br><span class="line">所求解集为:</span><br><span class="line">[</span><br><span class="line">  [2,2,2,2],</span><br><span class="line">  [2,3,3],</span><br><span class="line">  [3,5]</span><br><span class="line">]</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/combination-sum" target="_blank" rel="noopener">https://leetcode-cn.com/problems/combination-sum</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="思考与代码"><a href="#思考与代码" class="headerlink" title="思考与代码"></a>思考与代码</h1><p>这个题目的思想如下图所示<br><img src="/2020/07/07/LC39-%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/msedge_vZyLj7JXRS.png" alt="alt"><br>对于这个递归我们声明下面几个变量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">target:所要找的目标</span><br><span class="line">candidates:可选的集合</span><br><span class="line">path：当前递归的路径</span><br></pre></td></tr></table></figure><br>代码如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.res = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__recurrence</span><span class="params">(self, candidates, target, path)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        :param candidates:List[int] and sorted in reverse</span></span><br><span class="line"><span class="string">        :param target:int   所要找的目标</span></span><br><span class="line"><span class="string">        :param path:List[int]   当前的路径</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> target &lt; <span class="number">0</span> <span class="keyword">or</span> candidates.__len__() == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">elif</span> target == <span class="number">0</span> <span class="keyword">and</span> path.__len__() != <span class="number">0</span>:</span><br><span class="line">            self.res.append(path)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(candidates.__len__()):</span><br><span class="line">                path_copy = path[:]</span><br><span class="line">                path_copy.append(candidates[i])</span><br><span class="line">                self.__recurrence(candidates[i:], target - candidates[i], path_copy)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">combinationSum</span><span class="params">(self, candidates, target)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type candidates: List[int]</span></span><br><span class="line"><span class="string">        :type target: int</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        candidates.sort(reverse=<span class="literal">True</span>)</span><br><span class="line">        self.__recurrence(candidates=candidates, target=target, path=[])</span><br><span class="line">        <span class="keyword">return</span> self.res</span><br></pre></td></tr></table></figure></p>
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个 n × n 的二维矩阵表示一个图像。<br>将图像顺时针旋转 90 度。<br>说明：</p>
+<p>你必须在原地旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要使用另一个矩阵来旋转图像。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">示例 1:</span><br><span class="line">给定 matrix &#x3D; </span><br><span class="line">[</span><br><span class="line">  [1,2,3],</span><br><span class="line">  [4,5,6],</span><br><span class="line">  [7,8,9]</span><br><span class="line">],</span><br><span class="line"></span><br><span class="line">原地旋转输入矩阵，使其变为:</span><br><span class="line">[</span><br><span class="line">  [7,4,1],</span><br><span class="line">  [8,5,2],</span><br><span class="line">  [9,6,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">示例 2:</span><br><span class="line"></span><br><span class="line">给定 matrix &#x3D;</span><br><span class="line">[</span><br><span class="line">  [ 5, 1, 9,11],</span><br><span class="line">  [ 2, 4, 8,10],</span><br><span class="line">  [13, 3, 6, 7],</span><br><span class="line">  [15,14,12,16]</span><br><span class="line">], </span><br><span class="line"></span><br><span class="line">原地旋转输入矩阵，使其变为:</span><br><span class="line">[</span><br><span class="line">  [15,13, 2, 5],</span><br><span class="line">  [14, 3, 4, 1],</span><br><span class="line">  [12, 6, 8, 9],</span><br><span class="line">  [16, 7,10,11]</span><br><span class="line">]</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/rotate-image" target="_blank" rel="noopener">https://leetcode-cn.com/problems/rotate-image</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="思考与代码"><a href="#思考与代码" class="headerlink" title="思考与代码"></a>思考与代码</h1><p>这个题我觉得不是让你搞时间复杂度，他的时间复杂度吧，最少就是$O(n^2)$<br>这个题的主要难受的地方我觉得在于</p>
+<ul>
+<li>空间复杂度$O(1)$,常数级别的额外空间</li>
+<li>这边界，那边界的搞人心态</li>
+</ul>
+<p>所以说我觉得这个题的算法其实并不难，最直观的就是：</p>
+<script type="math/tex; mode=display">根据矩阵的的边长的奇偶性由内而外的旋转</script><p>但是这回涉及到一个问题，就是遍历和索引的顺序性，所以说比较难受<br>但是看到了一个很妙的算法:</p>
+<script type="math/tex; mode=display">旋转=转置+翻转</script><p>试了试，发现确实如此，转置和翻转是比容易实现的，所以就用这个办法！</p>
+<p>代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.matrix_size = <span class="number">0</span></span><br><span class="line">        self.matrix = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__transposition</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, self.matrix_size - <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i + <span class="number">1</span>, self.matrix_size):</span><br><span class="line">                tmp = self.matrix[i][j]</span><br><span class="line">                self.matrix[i][j] = self.matrix[j][i]</span><br><span class="line">                self.matrix[j][i] = tmp</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__flip</span><span class="params">(self)</span>:</span></span><br><span class="line">        left, right = <span class="number">0</span>, self.matrix_size - <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> left &lt; right:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(self.matrix_size):</span><br><span class="line">                tmp = self.matrix[i][left]</span><br><span class="line">                self.matrix[i][left] = self.matrix[i][right]</span><br><span class="line">                self.matrix[i][right] = tmp</span><br><span class="line">            left, right = left + <span class="number">1</span>, right - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rotate</span><span class="params">(self, matrix)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type matrix: List[List[int]]</span></span><br><span class="line"><span class="string">        :rtype: None Do not return anything, modify matrix in-place instead.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 这只是一个引用传递，没有copy一份</span></span><br><span class="line">        self.matrix = matrix</span><br><span class="line">        self.matrix_size = matrix.__len__()</span><br><span class="line">        <span class="keyword">if</span> self.matrix_size &lt;= <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.__transposition()</span><br><span class="line">            self.__flip()</span><br></pre></td></tr></table></figure><br>也是一次过，爽！</p>
 
     </div>
 
@@ -233,7 +238,7 @@
           <div class="post-tags">
               <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
               <a href="/tags/leetcode/" rel="tag"># leetcode</a>
-              <a href="/tags/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" rel="tag"># 回溯算法</a>
+              <a href="/tags/%E6%95%B0%E7%BB%84/" rel="tag"># 数组</a>
           </div>
 
         
@@ -242,13 +247,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/06/LC34-%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E6%89%BE%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE/" rel="prev" title="LC34- 在排序数组中查找元素的第一个和最后一个位置">
-      <i class="fa fa-chevron-left"></i> LC34- 在排序数组中查找元素的第一个和最后一个位置
+    <a href="/2020/07/08/LC46-%E5%85%A8%E6%8E%92%E5%88%97/" rel="prev" title="LC46-全排列">
+      <i class="fa fa-chevron-left"></i> LC46-全排列
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/07/07/LC42-%E6%8E%A5%E9%9B%A8%E6%B0%B4/" rel="next" title="LC42-接雨水">
-      LC42-接雨水 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
