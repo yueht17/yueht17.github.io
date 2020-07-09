@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-09T05:27:14.391Z</updated>
+  <updated>2020-07-09T12:50:20.039Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LC56-合并区间</title>
+    <link href="http://yoursite.com/2020/07/09/LC56-%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/"/>
+    <id>http://yoursite.com/2020/07/09/LC56-%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/</id>
+    <published>2020-07-09T11:48:52.000Z</published>
+    <updated>2020-07-09T12:50:20.039Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给出一个区间的集合，请合并所有重叠的区间。</p><p>示例 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [[1,3],[2,6],[8,10],[15,18]]</span><br><span class="line">输出: [[1,6],[8,10],[15,18]]</span><br><span class="line">解释: 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].</span><br></pre></td></tr></table></figure><br>示例 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [[1,4],[4,5]]</span><br><span class="line">输出: [[1,5]]</span><br><span class="line">解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/merge-intervals" target="_blank" rel="noopener">https://leetcode-cn.com/problems/merge-intervals</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p><h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>为了解决问题的方便，首先将原来的二维数组排序（按照每个区间的首元素，从小到大）<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[1,3],[2,6],[15,18],[8,10]] &#x3D;&gt; [[1,3],[2,6],[8,10],[15,18]]</span><br></pre></td></tr></table></figure><br>我们定义相关变量:</p><script type="math/tex; mode=display">nums_{sorted}:=按照上述要求排序好的List[List[int]]</script><script type="math/tex; mode=display">dp(i):=nums_{sorted}[0,1,2...,i]合并区间了之后的结果，类型：List[List[int]]</script><p>定义状态转移方程:</p><script type="math/tex; mode=display">dp(i+1)=\begin{cases}d(i) \cup nums_{sorted}[i+1] &dp(i)[-1] \cap nums_{sorted}[i+1] = \varnothing\\modify \; dp(i)[-1] \; as \; max(dp(i)[-1][1],nums_{sorted}[i][1])& \text{otherwise}\end{cases}</script><p>定义状态转移方程的边界</p><script type="math/tex; mode=display">dp[0] :=nums_{sorted}[0]</script><p>相关的代码实现如下所示：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">merge</span><span class="params">(self, intervals)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type intervals: List[List[int]]</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> intervals:<span class="keyword">return</span> []</span><br><span class="line">        intervals.sort()</span><br><span class="line">        dp = [intervals[<span class="number">0</span>]]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, intervals.__len__()):</span><br><span class="line">            <span class="keyword">if</span> dp[<span class="number">-1</span>][<span class="number">1</span>] &lt; intervals[i][<span class="number">0</span>]:</span><br><span class="line">                dp.append(intervals[i])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dp[<span class="number">-1</span>][<span class="number">1</span>] = max(dp[<span class="number">-1</span>][<span class="number">1</span>], intervals[i][<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> dp</span><br></pre></td></tr></table></figure><br>以上的算法复杂度为$O(nlog+n)=O(nlogn)$<br>顺利通过~( •̀ ω •́ )y</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h1&gt;&lt;p&gt;给出一个区间的集合，请合并所有重叠的区间。&lt;/p&gt;
+&lt;p&gt;示例 1:&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;
+      
+    
+    </summary>
+    
+    
+      <category term="刷题笔记" scheme="http://yoursite.com/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="leetcode" scheme="http://yoursite.com/tags/leetcode/"/>
+    
+      <category term="动态规划" scheme="http://yoursite.com/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
+    
+  </entry>
   
   <entry>
     <title>LC55-跳跃游戏</title>
@@ -603,28 +634,6 @@
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
       <category term="sql" scheme="http://yoursite.com/tags/sql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2020/06/25/hello-world/"/>
-    <id>http://yoursite.com/2020/06/25/hello-world/</id>
-    <published>2020-06-25T08:51:52.136Z</published>
-    <updated>2020-06-25T09:13:36.658Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
-    
-    </summary>
-    
-    
     
   </entry>
   
