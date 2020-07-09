@@ -20,22 +20,23 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="题目给定一个 没有重复 数字的序列，返回其所有可能的全排列。 示例:12345678910输入: [1,2,3]输出:[  [1,2,3],  [1,3,2],  [2,1,3],  [2,3,1],  [3,1,2],  [3,2,1]]来源：力扣（LeetCode）链接：https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;permutations著作权归领扣网络所有。商业转载请联">
+  <meta name="description" content="题目 字母异位词分组给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。  示例:1234567输入: [&quot;eat&quot;, &quot;tea&quot;, &quot;tan&quot;, &quot;ate&quot;, &quot;nat&quot;, &quot;bat&quot;]输出:[  [&quot;ate&quot;,&quot;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LC46-全排列">
-<meta property="og:url" content="http://yoursite.com/2020/07/08/LC46-%E5%85%A8%E6%8E%92%E5%88%97/index.html">
+<meta property="og:title" content="LC49-字母异位词分组">
+<meta property="og:url" content="http://yoursite.com/2020/07/09/LC49-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/index.html">
 <meta property="og:site_name" content="Haitao&#39;s Blog">
-<meta property="og:description" content="题目给定一个 没有重复 数字的序列，返回其所有可能的全排列。 示例:12345678910输入: [1,2,3]输出:[  [1,2,3],  [1,3,2],  [2,1,3],  [2,3,1],  [3,1,2],  [3,2,1]]来源：力扣（LeetCode）链接：https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;permutations著作权归领扣网络所有。商业转载请联">
+<meta property="og:description" content="题目 字母异位词分组给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。  示例:1234567输入: [&quot;eat&quot;, &quot;tea&quot;, &quot;tan&quot;, &quot;ate&quot;, &quot;nat&quot;, &quot;bat&quot;]输出:[  [&quot;ate&quot;,&quot;">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-07-07T22:44:46.000Z">
-<meta property="article:modified_time" content="2020-07-08T00:14:02.322Z">
+<meta property="article:published_time" content="2020-07-08T22:55:23.000Z">
+<meta property="article:modified_time" content="2020-07-08T23:56:43.520Z">
 <meta property="article:author" content="haitao">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="leetcode">
-<meta property="article:tag" content="回溯算法">
+<meta property="article:tag" content="哈希表">
+<meta property="article:tag" content="字符串">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/07/08/LC46-%E5%85%A8%E6%8E%92%E5%88%97/">
+<link rel="canonical" href="http://yoursite.com/2020/07/09/LC49-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/">
 
 
 <script id="page-configurations">
@@ -48,7 +49,7 @@
   };
 </script>
 
-  <title>LC46-全排列 | Haitao's Blog</title>
+  <title>LC49-字母异位词分组 | Haitao's Blog</title>
   
 
 
@@ -169,7 +170,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/08/LC46-%E5%85%A8%E6%8E%92%E5%88%97/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/09/LC49-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -182,7 +183,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          LC46-全排列
+          LC49-字母异位词分组
         </h1>
 
         <div class="post-meta">
@@ -193,7 +194,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-07-08 06:44:46 / Modified: 08:14:02" itemprop="dateCreated datePublished" datetime="2020-07-08T06:44:46+08:00">2020-07-08</time>
+              <time title="Created: 2020-07-09 06:55:23 / Modified: 07:56:43" itemprop="dateCreated datePublished" datetime="2020-07-09T06:55:23+08:00">2020-07-09</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -216,10 +217,47 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个 没有重复 数字的序列，返回其所有可能的全排列。</p>
-<p>示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输入: [1,2,3]</span><br><span class="line">输出:</span><br><span class="line">[</span><br><span class="line">  [1,2,3],</span><br><span class="line">  [1,3,2],</span><br><span class="line">  [2,1,3],</span><br><span class="line">  [2,3,1],</span><br><span class="line">  [3,1,2],</span><br><span class="line">  [3,2,1]</span><br><span class="line">]</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/permutations" target="_blank" rel="noopener">https://leetcode-cn.com/problems/permutations</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="思考与代码"><a href="#思考与代码" class="headerlink" title="思考与代码"></a>思考与代码</h1><h2 id="回溯算法"><a href="#回溯算法" class="headerlink" title="回溯算法"></a>回溯算法</h2><p>这个题可以递归，也可以用回溯的方法做，我们先用回溯的方式尝试一下，这个题啊比较类似于”LC17-电话号码的字母组合”,这个题，可以说是十分相似了…<br>下面说下回溯的框架：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__backTrack</span><span class="params">(self, combination, new_digits)</span>:</span></span><br><span class="line">        <span class="comment"># 回溯的出口</span></span><br><span class="line">        <span class="keyword">if</span> new_digits.__len__() == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">if</span> combination != <span class="string">""</span>:</span><br><span class="line">                self.res_val.append(combination)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> self.phone[new_digits[<span class="number">0</span>]]:</span><br><span class="line">            <span class="comment"># 下一轮回溯的入口</span></span><br><span class="line">                self.__backTrack(combination + item, new_digits[<span class="number">1</span>:])</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> 回溯的入口<span class="params">(self, digits)</span>:</span></span><br><span class="line">        self.__backTrack(起点, 输入元素)</span><br><span class="line">        <span class="keyword">return</span> self.res_val</span><br></pre></td></tr></table></figure></p>
-<p>好的根据以上的框架我们吧代码补全嗷<br>代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.res = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__backTrack</span><span class="params">(self, combination, candidates)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        :param combination: List[int]</span></span><br><span class="line"><span class="string">        :param candidates: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> candidates.__len__() == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">if</span> combination:</span><br><span class="line">                self.res.append(combination)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> combination:</span><br><span class="line">                self.__backTrack([candidates[<span class="number">0</span>]], candidates[<span class="number">1</span>:])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">for</span> insert_index <span class="keyword">in</span> range(combination.__len__() + <span class="number">1</span>):</span><br><span class="line">                    combination_copy = combination[:]</span><br><span class="line">                    combination_copy.insert(insert_index, candidates[<span class="number">0</span>])</span><br><span class="line">                    self.__backTrack(combination_copy, candidates[<span class="number">1</span>:])</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">permute</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.__backTrack([], nums)</span><br><span class="line">        <span class="keyword">return</span> self.res</span><br></pre></td></tr></table></figure><br>一次过，开心o(<em>￣▽￣</em>)ブ</p>
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><ol>
+<li>字母异位词分组<br>给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。</li>
+</ol>
+<p>示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入: [&quot;eat&quot;, &quot;tea&quot;, &quot;tan&quot;, &quot;ate&quot;, &quot;nat&quot;, &quot;bat&quot;]</span><br><span class="line">输出:</span><br><span class="line">[</span><br><span class="line">  [&quot;ate&quot;,&quot;eat&quot;,&quot;tea&quot;],</span><br><span class="line">  [&quot;nat&quot;,&quot;tan&quot;],</span><br><span class="line">  [&quot;bat&quot;]</span><br><span class="line">]</span><br></pre></td></tr></table></figure><br>说明：</p>
+<ul>
+<li>所有输入均为小写字母。</li>
+<li>不考虑答案输出的顺序。</li>
+</ul>
+<h1 id="思考与代码"><a href="#思考与代码" class="headerlink" title="思考与代码"></a>思考与代码</h1><p>首先我们先定义如下的相关变量</p>
+<script type="math/tex; mode=display">
+N:=输入字符串列表的长度 \\
+K:=输入的字符串的最大长度</script><h3 id="1-先说一下自己的一个想法"><a href="#1-先说一下自己的一个想法" class="headerlink" title="1.先说一下自己的一个想法"></a>1.先说一下自己的一个想法</h3><p>先说一下我的数据结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">res &#x3D; List[List[int]]</span><br><span class="line">hashmap &#x3D; &#123;</span><br><span class="line">    &quot;aet&quot;:[&quot;ate&quot;,&quot;eat&quot;,&quot;tea&quot;],</span><br><span class="line">    &quot;ant&quot;:[&quot;nat&quot;,&quot;tan&quot;],</span><br><span class="line">    &quot;abt&quot;:[&quot;bat&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中res为我们最终要返回的值，hashmap为我们主要的操作对象<br>其中具体的算法流程如下</p>
+<ul>
+<li>遍历输入数组，遍历的变量为索引i<ul>
+<li>对strs[i]排序，得到strs[i].sort()</li>
+<li>strs[i].sort()是否存在于hashmap<ul>
+<li>是：在其值中append(strs[i])</li>
+<li>否：创建键值对(strs[i].sort():[strs[i]])</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>最终输出hashmap的值</li>
+</ul>
+<p>分析以上的算法，我们不难看出其复杂度为$O(N \times KlogK)$<br>我们将以上的算法付诸于实践，具体的代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">groupAnagrams</span><span class="params">(self, strs)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type strs: List[str]</span></span><br><span class="line"><span class="string">        :rtype: List[List[str]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        res, hashmap = [], &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> strs:</span><br><span class="line">            key = <span class="string">""</span>.join(sorted(item))</span><br><span class="line">            <span class="keyword">if</span> key <span class="keyword">in</span> hashmap:</span><br><span class="line">                hashmap[key].append(item)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                hashmap[key] = [item]</span><br><span class="line">        <span class="keyword">for</span> key, value <span class="keyword">in</span> hashmap.items():</span><br><span class="line">            res.append(value)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure><br>具体的代码也不是很复杂，然后逻辑也比较清晰，主要就是考察hashmap</p>
+<h3 id="2-对以上算法进行相关的改进"><a href="#2-对以上算法进行相关的改进" class="headerlink" title="2. 对以上算法进行相关的改进"></a>2. 对以上算法进行相关的改进</h3><p>我们上面的算法要做排序，所以会带来$KlogK$的复杂度，我们下面引入一个不用排序的方法<br>其中具体的算法流程如下</p>
+<ul>
+<li>遍历输入数组，遍历的变量为索引i<ul>
+<li>strs[i] -&gt; tuple (0,0,1,2…,1)</li>
+<li>例如：abbc -&gt; （1,2,1,0….0）</li>
+<li>tuple是否存在于hashmap<ul>
+<li>是：在其值中append(strs[i])</li>
+<li>否：创建键值对(tuple:[strs[i]])</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>最终输出hashmap的值</li>
+</ul>
+<p>分析以上的算法，我们不难看出其复杂度为$O(N \times K)$<br>我们将上述的算法代码化：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">groupAnagrams</span><span class="params">(self, strs)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type strs: List[str]</span></span><br><span class="line"><span class="string">        :rtype: List[List[str]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        res, hashmap = [], &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> strs:</span><br><span class="line">            key = [<span class="number">0</span>] * <span class="number">26</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> item:</span><br><span class="line">                key[ord(i) - <span class="number">97</span>] += <span class="number">1</span></span><br><span class="line">            key = tuple(key)</span><br><span class="line">            <span class="keyword">if</span> key <span class="keyword">in</span> hashmap:</span><br><span class="line">                hashmap[key].append(item)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                hashmap[key] = [item]</span><br><span class="line">        <span class="keyword">for</span> key, value <span class="keyword">in</span> hashmap.items():</span><br><span class="line">            res.append(value)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure><br>淦，虽然复杂度下降了，但是时间并没有下降…</p>
 
     </div>
 
@@ -231,7 +269,8 @@
           <div class="post-tags">
               <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
               <a href="/tags/leetcode/" rel="tag"># leetcode</a>
-              <a href="/tags/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" rel="tag"># 回溯算法</a>
+              <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag"># 哈希表</a>
+              <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag"># 字符串</a>
           </div>
 
         
@@ -240,12 +279,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/07/LC42-%E6%8E%A5%E9%9B%A8%E6%B0%B4/" rel="prev" title="LC42-接雨水">
-      <i class="fa fa-chevron-left"></i> LC42-接雨水
+    <a href="/2020/07/08/LC48-%E6%97%8B%E8%BD%AC%E5%9B%BE%E5%83%8F/" rel="prev" title="LC48-旋转图像">
+      <i class="fa fa-chevron-left"></i> LC48-旋转图像
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/07/08/LC48-%E6%97%8B%E8%BD%AC%E5%9B%BE%E5%83%8F/" rel="next" title="LC48-旋转图像">
-      LC48-旋转图像 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/07/09/LC53-%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C/" rel="next" title="LC53-最大子序和 ">
+      LC53-最大子序和  <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -305,7 +344,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思考与代码"><span class="nav-number">2.</span> <span class="nav-text">思考与代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#回溯算法"><span class="nav-number">2.1.</span> <span class="nav-text">回溯算法</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思考与代码"><span class="nav-number">2.</span> <span class="nav-text">思考与代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-先说一下自己的一个想法"><span class="nav-number">2.0.1.</span> <span class="nav-text">1.先说一下自己的一个想法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-对以上算法进行相关的改进"><span class="nav-number">2.0.2.</span> <span class="nav-text">2. 对以上算法进行相关的改进</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

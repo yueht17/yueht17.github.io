@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-08T01:15:31.005Z</updated>
+  <updated>2020-07-09T05:27:14.391Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,103 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LC55-跳跃游戏</title>
+    <link href="http://yoursite.com/2020/07/09/LC55-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F/"/>
+    <id>http://yoursite.com/2020/07/09/LC55-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F/</id>
+    <published>2020-07-09T04:27:58.000Z</published>
+    <updated>2020-07-09T05:27:14.391Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个非负整数数组，你最初位于数组的第一个位置。</p><p>数组中的每个元素代表你在该位置可以跳跃的最大长度。</p><p>判断你是否能够到达最后一个位置。</p><p>示例 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [2,3,1,1,4]</span><br><span class="line">输出: true</span><br><span class="line">解释: 我们可以先跳 1 步，从位置 0 到达 位置 1, 然后再从位置 1 跳 3 步到达最后一个位置。</span><br></pre></td></tr></table></figure><br>示例 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [3,2,1,0,4]</span><br><span class="line">输出: false</span><br><span class="line">解释: 无论怎样，你总会到达索引为 3 的位置。但该位置的最大跳跃长度是 0 ， 所以你永远不可能到达最后一个位置。</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/jump-game" target="_blank" rel="noopener">https://leetcode-cn.com/problems/jump-game</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p><h2 id="思考与代码"><a href="#思考与代码" class="headerlink" title="思考与代码"></a>思考与代码</h2><h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>首先我们定义相关变量</p><script type="math/tex; mode=display">f(i):=nums[0,1,2,3...,i]的最大可达范围</script><p>然后我们定义状态转移方程</p><script type="math/tex; mode=display">f(i+1)=\begin{cases}f(i)& \text{ f(i)<i+1 }\\max(f(i),i+1+nums[i+1])& \text{otherwise}\end{cases}</script><p>状态方程的边界如下</p><script type="math/tex; mode=display">f(0):=nums[0]</script><p>最后返回</p><script type="math/tex; mode=display">f(n) \ge lens(nums)</script><p>就好…<br>代码实现：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">canJump</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, nums.__len__() - <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> nums[i] &lt; i + <span class="number">1</span>:</span><br><span class="line">                nums[i + <span class="number">1</span>] = nums[i]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                nums[i + <span class="number">1</span>] = max(nums[i], i + <span class="number">1</span> + nums[i + <span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">-1</span>] &gt;= nums.__len__() - <span class="number">1</span> <span class="keyword">or</span> nums.__len__() == <span class="number">1</span></span><br></pre></td></tr></table></figure><br>显然这个的算法复杂度为为$O(n)$<br>显然这个算法并不够好，他会傻傻的吧所有的数组遍历一边，有的测试例可能连一半都走不到，但是还是会遍历，现在对上面的算法进行改进值得把完全不可能的场景给排除</p><h3 id="动态规划的改进"><a href="#动态规划的改进" class="headerlink" title="动态规划的改进"></a>动态规划的改进</h3><p>代码如下，主要是将连中途都完不成的情况给排除了2333<br>确实变快了一点点…<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">canJump</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, nums.__len__() - <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> nums[i] &lt; i + <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                nums[i + <span class="number">1</span>] = max(nums[i], i + <span class="number">1</span> + nums[i + <span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">-1</span>] &gt;= nums.__len__() - <span class="number">1</span> <span class="keyword">or</span> nums.__len__() == <span class="number">1</span></span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h1&gt;&lt;p&gt;给定一个非负整数数组，你最初位于数组的第一个位置。&lt;/p&gt;
+&lt;p&gt;数组中的每个元素代表你在该位置可以跳跃的最大长度。&lt;/p&gt;
+&lt;p&gt;判断你是
+      
+    
+    </summary>
+    
+    
+      <category term="刷题笔记" scheme="http://yoursite.com/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="leetcode" scheme="http://yoursite.com/tags/leetcode/"/>
+    
+      <category term="动态规划" scheme="http://yoursite.com/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LC53-最大子序和 </title>
+    <link href="http://yoursite.com/2020/07/09/LC53-%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C/"/>
+    <id>http://yoursite.com/2020/07/09/LC53-%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C/</id>
+    <published>2020-07-09T00:01:46.000Z</published>
+    <updated>2020-07-09T03:56:59.325Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p><p>示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [-2,1,-3,4,-1,2,1,-5,4],</span><br><span class="line">输出: 6</span><br><span class="line">解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。</span><br></pre></td></tr></table></figure><br>进阶:<br>如果你已经实现复杂度为 $O(n)$的解法，尝试使用更为精妙的分治法求解。</p><p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/maximum-subarray" target="_blank" rel="noopener">https://leetcode-cn.com/problems/maximum-subarray</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p><h1 id="思考与代码"><a href="#思考与代码" class="headerlink" title="思考与代码"></a>思考与代码</h1><h3 id="1-暴力法"><a href="#1-暴力法" class="headerlink" title="1.暴力法"></a>1.暴力法</h3><p>对子序列的长度和子序列的开头做遍历，最终的到结果，算法的复杂度为$O(n^2)$<br>想法比较简单，直接上代码，我估计应该过不了一两个点。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSubArray</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        res = <span class="number">-1</span> * <span class="number">2</span> ** <span class="number">31</span></span><br><span class="line">        <span class="keyword">for</span> length <span class="keyword">in</span> range(<span class="number">1</span>, nums.__len__() + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> begin <span class="keyword">in</span> range(<span class="number">0</span>, nums.__len__() + <span class="number">1</span> - length):</span><br><span class="line">                res = max(res, sum(nums[begin:begin + length]))</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure><br>果然和我猜测的一样，难受~</p><h3 id="2-动态规划"><a href="#2-动态规划" class="headerlink" title="2. 动态规划"></a>2. 动态规划</h3><p>上述有很多的重叠子问题都算了一边所以导致效率比较低，现在采用动态规划的想法。<br>首先我们定义相关的变量</p><script type="math/tex; mode=display">f(i):=nums[0,1,2...,i]的最大连续的子数和</script><p>状态转移方程如下：</p><script type="math/tex; mode=display">f(i) = max(f(i-1)+nums[i],nums[i])</script><p>状态转移方程的边界为：</p><script type="math/tex; mode=display">f(0) = nums[0]</script><p>不难发现此算法的复杂度为$O(n)$<br>我们将上面的算法代码化，代码如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSubArray</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(<span class="number">1</span>, nums.__len__()):</span><br><span class="line">            nums[index] = max(nums[index - <span class="number">1</span>] + nums[index], nums[index])</span><br><span class="line">        <span class="keyword">return</span> max(nums)</span><br></pre></td></tr></table></figure><br>解决了，( •̀ ω •́ )y</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h1&gt;&lt;p&gt;给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。&lt;/p&gt;
+&lt;p&gt;示例:&lt;br&gt;&lt;fig
+      
+    
+    </summary>
+    
+    
+      <category term="刷题笔记" scheme="http://yoursite.com/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="leetcode" scheme="http://yoursite.com/tags/leetcode/"/>
+    
+      <category term="动态规划" scheme="http://yoursite.com/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LC49-字母异位词分组</title>
+    <link href="http://yoursite.com/2020/07/09/LC49-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/"/>
+    <id>http://yoursite.com/2020/07/09/LC49-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/</id>
+    <published>2020-07-08T22:55:23.000Z</published>
+    <updated>2020-07-08T23:56:43.520Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><ol><li>字母异位词分组<br>给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。</li></ol><p>示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入: [&quot;eat&quot;, &quot;tea&quot;, &quot;tan&quot;, &quot;ate&quot;, &quot;nat&quot;, &quot;bat&quot;]</span><br><span class="line">输出:</span><br><span class="line">[</span><br><span class="line">  [&quot;ate&quot;,&quot;eat&quot;,&quot;tea&quot;],</span><br><span class="line">  [&quot;nat&quot;,&quot;tan&quot;],</span><br><span class="line">  [&quot;bat&quot;]</span><br><span class="line">]</span><br></pre></td></tr></table></figure><br>说明：</p><ul><li>所有输入均为小写字母。</li><li>不考虑答案输出的顺序。</li></ul><h1 id="思考与代码"><a href="#思考与代码" class="headerlink" title="思考与代码"></a>思考与代码</h1><p>首先我们先定义如下的相关变量</p><script type="math/tex; mode=display">N:=输入字符串列表的长度 \\K:=输入的字符串的最大长度</script><h3 id="1-先说一下自己的一个想法"><a href="#1-先说一下自己的一个想法" class="headerlink" title="1.先说一下自己的一个想法"></a>1.先说一下自己的一个想法</h3><p>先说一下我的数据结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">res &#x3D; List[List[int]]</span><br><span class="line">hashmap &#x3D; &#123;</span><br><span class="line">    &quot;aet&quot;:[&quot;ate&quot;,&quot;eat&quot;,&quot;tea&quot;],</span><br><span class="line">    &quot;ant&quot;:[&quot;nat&quot;,&quot;tan&quot;],</span><br><span class="line">    &quot;abt&quot;:[&quot;bat&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>其中res为我们最终要返回的值，hashmap为我们主要的操作对象<br>其中具体的算法流程如下</p><ul><li>遍历输入数组，遍历的变量为索引i<ul><li>对strs[i]排序，得到strs[i].sort()</li><li>strs[i].sort()是否存在于hashmap<ul><li>是：在其值中append(strs[i])</li><li>否：创建键值对(strs[i].sort():[strs[i]])</li></ul></li></ul></li><li>最终输出hashmap的值</li></ul><p>分析以上的算法，我们不难看出其复杂度为$O(N \times KlogK)$<br>我们将以上的算法付诸于实践，具体的代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">groupAnagrams</span><span class="params">(self, strs)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type strs: List[str]</span></span><br><span class="line"><span class="string">        :rtype: List[List[str]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        res, hashmap = [], &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> strs:</span><br><span class="line">            key = <span class="string">""</span>.join(sorted(item))</span><br><span class="line">            <span class="keyword">if</span> key <span class="keyword">in</span> hashmap:</span><br><span class="line">                hashmap[key].append(item)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                hashmap[key] = [item]</span><br><span class="line">        <span class="keyword">for</span> key, value <span class="keyword">in</span> hashmap.items():</span><br><span class="line">            res.append(value)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure><br>具体的代码也不是很复杂，然后逻辑也比较清晰，主要就是考察hashmap</p><h3 id="2-对以上算法进行相关的改进"><a href="#2-对以上算法进行相关的改进" class="headerlink" title="2. 对以上算法进行相关的改进"></a>2. 对以上算法进行相关的改进</h3><p>我们上面的算法要做排序，所以会带来$KlogK$的复杂度，我们下面引入一个不用排序的方法<br>其中具体的算法流程如下</p><ul><li>遍历输入数组，遍历的变量为索引i<ul><li>strs[i] -&gt; tuple (0,0,1,2…,1)</li><li>例如：abbc -&gt; （1,2,1,0….0）</li><li>tuple是否存在于hashmap<ul><li>是：在其值中append(strs[i])</li><li>否：创建键值对(tuple:[strs[i]])</li></ul></li></ul></li><li>最终输出hashmap的值</li></ul><p>分析以上的算法，我们不难看出其复杂度为$O(N \times K)$<br>我们将上述的算法代码化：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">groupAnagrams</span><span class="params">(self, strs)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type strs: List[str]</span></span><br><span class="line"><span class="string">        :rtype: List[List[str]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        res, hashmap = [], &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> strs:</span><br><span class="line">            key = [<span class="number">0</span>] * <span class="number">26</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> item:</span><br><span class="line">                key[ord(i) - <span class="number">97</span>] += <span class="number">1</span></span><br><span class="line">            key = tuple(key)</span><br><span class="line">            <span class="keyword">if</span> key <span class="keyword">in</span> hashmap:</span><br><span class="line">                hashmap[key].append(item)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                hashmap[key] = [item]</span><br><span class="line">        <span class="keyword">for</span> key, value <span class="keyword">in</span> hashmap.items():</span><br><span class="line">            res.append(value)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure><br>淦，虽然复杂度下降了，但是时间并没有下降…</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;字母异位词分组&lt;br&gt;给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。&lt;/li&gt;
+&lt;/ol
+      
+    
+    </summary>
+    
+    
+      <category term="刷题笔记" scheme="http://yoursite.com/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="leetcode" scheme="http://yoursite.com/tags/leetcode/"/>
+    
+      <category term="哈希表" scheme="http://yoursite.com/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/"/>
+    
+      <category term="字符串" scheme="http://yoursite.com/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+    
+  </entry>
   
   <entry>
     <title>LC48-旋转图像</title>
