@@ -161,6 +161,133 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/11/LC72-%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="haitao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haitao's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/11/LC72-%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/" class="post-title-link" itemprop="url">LC72-编辑距离</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-11 12:35:16 / Modified: 16:00:27" itemprop="dateCreated datePublished" datetime="2020-07-11T12:35:16+08:00">2020-07-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你两个单词 word1 和 word2，请你计算出将 word1 转换成 word2 所使用的最少操作数 。</p>
+<p>你可以对一个单词进行如下三种操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">插入一个字符</span><br><span class="line">删除一个字符</span><br><span class="line">替换一个字符</span><br></pre></td></tr></table></figure></p>
+<p>示例 1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入：word1 &#x3D; &quot;horse&quot;, word2 &#x3D; &quot;ros&quot;</span><br><span class="line">输出：3</span><br><span class="line">解释：</span><br><span class="line">horse -&gt; rorse (将 &#39;h&#39; 替换为 &#39;r&#39;)</span><br><span class="line">rorse -&gt; rose (删除 &#39;r&#39;)</span><br><span class="line">rose -&gt; ros (删除 &#39;e&#39;)</span><br></pre></td></tr></table></figure><br>示例 2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">输入：word1 &#x3D; &quot;intention&quot;, word2 &#x3D; &quot;execution&quot;</span><br><span class="line">输出：5</span><br><span class="line">解释：</span><br><span class="line">intention -&gt; inention (删除 &#39;t&#39;)</span><br><span class="line">inention -&gt; enention (将 &#39;i&#39; 替换为 &#39;e&#39;)</span><br><span class="line">enention -&gt; exention (将 &#39;n&#39; 替换为 &#39;x&#39;)</span><br><span class="line">exention -&gt; exection (将 &#39;n&#39; 替换为 &#39;c&#39;)</span><br><span class="line">exection -&gt; execution (插入 &#39;u&#39;)</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/edit-distance" target="_blank" rel="noopener">https://leetcode-cn.com/problems/edit-distance</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><p>最首先我们知道对于A与B有以下3种操作:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">插入一个字符</span><br><span class="line">删除一个字符</span><br><span class="line">替换一个字符</span><br></pre></td></tr></table></figure><br>所以总体上一共有6种操作，这太多了，我们对其中等价的操作去除重复。</p>
+<ul>
+<li><p>对单词 A 删除一个字符和对单词 B 插入一个字符是等价的。</p>
+<ul>
+<li>例如当单词 A 为 doge，单词 B 为 dog 时，我们既可以删除单词 A 的最后一个字符 e，得到相同的 dog，也可以在单词 B 末尾添加一个字符 e，得到相同的 doge；</li>
+</ul>
+</li>
+<li><p>同理，对单词 B 删除一个字符和对单词 A 插入一个字符也是等价的；</p>
+</li>
+<li><p>对单词 A 替换一个字符和对单词 B 替换一个字符是等价的。</p>
+<ul>
+<li>例如当单词 A 为 bat，单词 B 为 cat 时，我们修改单词 A 的第一个字母 b -&gt; c，和修改单词 B 的第一个字母 c -&gt; b 是等价的。</li>
+</ul>
+</li>
+</ul>
+<p>综上所述存在以下三者，互异的操作</p>
+<ul>
+<li>在单词 A 中插入一个字符；</li>
+<li>在单词 B 中插入一个字符；</li>
+<li>修改单词 A 的一个字符</li>
+</ul>
+<h3 id="1-回溯算法-lt-由顶向底-gt"><a href="#1-回溯算法-lt-由顶向底-gt" class="headerlink" title="1. 回溯算法&lt;由顶向底&gt;"></a>1. 回溯算法&lt;由顶向底&gt;</h3><p>我们首先假设最终的结果为op<br>由于递归是由顶到底的，所以说们首先考虑最为一般的情况。</p>
+<ul>
+<li>A与B都非空</li>
+</ul>
+<p>以上这种的情况我们可以分为两类</p>
+<ul>
+<li>A与B都非空，且A[-1]==B[-1]<ul>
+<li>op = 递归下探（A[0:-1],B[0:-1]）</li>
+</ul>
+</li>
+<li>A与B都非空，且A[-1]!=B[-1]<ul>
+<li>OP = min{递归下探（A,B[0:-1]）,递归下探（A[0:-1],B）,递归下探（A[0:-1],B[0:-1]）}</li>
+</ul>
+</li>
+</ul>
+<p>剩下一种最为简单的场景</p>
+<ul>
+<li>A空 or B空</li>
+</ul>
+<p>这种情况最为简单，我们秩序返回</p>
+<ul>
+<li>op= max（A.lens，B。lens）</li>
+</ul>
+<p>好的我们直接编写代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minDistance</span><span class="params">(self, word1, word2)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type word1: str</span></span><br><span class="line"><span class="string">        :type word2: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> word1 == <span class="string">""</span> <span class="keyword">or</span> word2 == <span class="string">""</span>:</span><br><span class="line">            <span class="keyword">return</span> max(word1.__len__(), word2.__len__())</span><br><span class="line">        <span class="keyword">elif</span> word1[<span class="number">-1</span>] == word2[<span class="number">-1</span>]:</span><br><span class="line">            <span class="keyword">return</span> self.minDistance(word1[<span class="number">0</span>:<span class="number">-1</span>], word2[<span class="number">0</span>:<span class="number">-1</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span> + min(self.minDistance(word1, word2[<span class="number">0</span>:<span class="number">-1</span>]),</span><br><span class="line">                           self.minDistance(word1[<span class="number">0</span>:<span class="number">-1</span>], word2),</span><br><span class="line">                           self.minDistance(word1[<span class="number">0</span>:<span class="number">-1</span>], word2[<span class="number">0</span>:<span class="number">-1</span>]))</span><br></pre></td></tr></table></figure><br>这个解法的效率真的超级低，连如下这么简单的样例都无法通过<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">word1=<span class="string">"dinitrophenylhydrazine"</span></span><br><span class="line">word2<span class="string">"benzalphenylhydrazone"</span></span><br></pre></td></tr></table></figure><br>我们将大量的结果计算之后丢弃了，重复计算了好多次，下面我就用动态<br>规划的方式以空间换时间</p>
+<h3 id="2-动态规划-lt-由底向顶-gt"><a href="#2-动态规划-lt-由底向顶-gt" class="headerlink" title="2. 动态规划&lt;由底向顶&gt;"></a>2. 动态规划&lt;由底向顶&gt;</h3><p>首先我们定义状态</p>
+<script type="math/tex; mode=display">
+op[i][j]:=word1[0:i]到word2[0:j]的(最优)编辑距离</script><p>状态转移方程为</p>
+<script type="math/tex; mode=display">
+op[i][j]=
+\begin{cases}
+1+min\{op[i][j-1],op[i-1][j],op[i-1][j-1]\}& if \; word1[i] \neq word2[j]\\
+op[i-1][j-1]& \text{otherwise}
+\end{cases}</script><p>状态转移方程的边界如下</p>
+<script type="math/tex; mode=display">
+op[i][0]:=i \; ;
+op[0][j]:=j</script><p>综上所述我们代码实现一下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minDistance</span><span class="params">(self, word1, word2)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type word1: str</span></span><br><span class="line"><span class="string">        :type word2: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        row_num, col_num, INTMAX = word1.__len__() + <span class="number">1</span>, word2.__len__() + <span class="number">1</span>, <span class="number">2</span> ** <span class="number">31</span> - <span class="number">1</span></span><br><span class="line">        op = [[INTMAX] * col_num <span class="keyword">for</span> i <span class="keyword">in</span> range(row_num)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(row_num):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(col_num):</span><br><span class="line">                <span class="keyword">if</span> i == <span class="number">0</span> <span class="keyword">and</span> j == <span class="number">0</span>:</span><br><span class="line">                    op[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">                <span class="keyword">elif</span> i == <span class="number">0</span>:</span><br><span class="line">                    op[i][j] = j</span><br><span class="line">                <span class="keyword">elif</span> j == <span class="number">0</span>:</span><br><span class="line">                    op[i][j] = i</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">if</span> word1[i - <span class="number">1</span>] != word2[j - <span class="number">1</span>]:</span><br><span class="line">                        op[i][j] = <span class="number">1</span> + min(op[i][j - <span class="number">1</span>], op[i - <span class="number">1</span>][j], op[i - <span class="number">1</span>][j - <span class="number">1</span>])</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        op[i][j] = op[i - <span class="number">1</span>][j - <span class="number">1</span>]</span><br><span class="line">        <span class="keyword">return</span> op[row_num - <span class="number">1</span>][col_num - <span class="number">1</span>]</span><br></pre></td></tr></table></figure><br>通过完成，效果还不错~</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/11/LC70-%E7%88%AC%E6%A5%BC%E6%A2%AF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -900,108 +1027,6 @@ K:=输入的字符串的最大长度</script><h3 id="1-先说一下自己的一�
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/07/LC42-%E6%8E%A5%E9%9B%A8%E6%B0%B4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="haitao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Haitao's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/07/LC42-%E6%8E%A5%E9%9B%A8%E6%B0%B4/" class="post-title-link" itemprop="url">LC42-接雨水</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-07 10:52:39" itemprop="dateCreated datePublished" datetime="2020-07-07T10:52:39+08:00">2020-07-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-12 18:59:55" itemprop="dateModified" datetime="2020-07-12T18:59:55+08:00">2020-07-12</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。</p>
-<p><img src="/2020/07/07/LC42-%E6%8E%A5%E9%9B%A8%E6%B0%B4/msedge_fhKp8cLu3k.png" alt="alt"></p>
-<p>上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。 感谢 Marcos 贡献此图。</p>
-<p>示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [0,1,0,2,1,0,1,3,2,1,2,1]</span><br><span class="line">输出: 6</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/trapping-rain-water" target="_blank" rel="noopener">https://leetcode-cn.com/problems/trapping-rain-water</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="代码与思考"><a href="#代码与思考" class="headerlink" title="代码与思考"></a>代码与思考</h1><h3 id="1-暴力法"><a href="#1-暴力法" class="headerlink" title="1. 暴力法"></a>1. 暴力法</h3><p>其实这个暴力法也不太好想，是这样的：</p>
-<ul>
-<li>$res:=0$</li>
-<li>从左到右遍历整个数组<ul>
-<li>对于每次遍历的元素,找到此元素左面所有元素的最大值$rigntmax$,同理$leftmax$</li>
-<li>$res += max\{[min(rigntmax,leftmax) - 此次遍历的元素],0\}$</li>
-</ul>
-</li>
-<li>返回$res$</li>
-</ul>
-<p>明显这个算法的复杂度为$O(n^2)$</p>
-<p>代码如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">trap</span><span class="params">(self, height)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type height: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        height_len = height.__len__()</span><br><span class="line">        <span class="keyword">if</span> height_len &lt;= <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            res = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(height_len):</span><br><span class="line">                left_list, right_list = height[:i], height[i + <span class="number">1</span>:]</span><br><span class="line">                left_list.append(<span class="number">0</span>), right_list.append(<span class="number">0</span>)</span><br><span class="line">                left_max, right_max = max(left_list), max(right_list)</span><br><span class="line">                res += max(min(left_max, right_max) - height[i], <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure><br>测试发现最后的两个点的时间超过了2s,所以…<br>很好，终于TLE了，看来这个题没办法大力出奇迹，只能用更低复杂度的方法了</p>
-<h3 id="2-在暴力法的基础进行改进"><a href="#2-在暴力法的基础进行改进" class="headerlink" title="2.在暴力法的基础进行改进"></a>2.在暴力法的基础进行改进</h3><p>其实在上述的暴力法中，在找寻$leftmax$和$rightmax$时候很蠢。<br>在求解以上两者的时候存在重叠子问题，例如：<br>$leftmax[i]=max(height[i-1],leftmax[i-1])$<br>$righttmax[i]=max(height[i+1],rightmax[i+1])$</p>
-<p>所以我们将上述的想法，付诸于算法</p>
-<ul>
-<li>$res:=0$</li>
-<li>构建数组$leftmax[],rightmax[]$$</li>
-<li>从左到右遍历整个数组<ul>
-<li>$res += max\{[min(rigntmax [i],leftmax[i]) - height[i]],0\}$</li>
-</ul>
-</li>
-<li>返回$res$</li>
-</ul>
-<p>此算法的复杂度为$O(n)$</p>
-<p>代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">trap</span><span class="params">(self, height)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type height: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        height_len = height.__len__()</span><br><span class="line">        <span class="keyword">if</span> height_len &lt;= <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            res = <span class="number">0</span></span><br><span class="line">            left_max, right_max = [<span class="number">0</span>] * height_len, [<span class="number">0</span>] * height_len</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, height_len, <span class="number">1</span>):</span><br><span class="line">                left_max[i] = max(left_max[i - <span class="number">1</span>], height[i - <span class="number">1</span>])</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(height_len - <span class="number">2</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">                right_max[i] = max(right_max[i + <span class="number">1</span>], height[i + <span class="number">1</span>])</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(height_len):</span><br><span class="line">                res += max(min(left_max[i], right_max[i]) - height[i], <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure><br>过了，( •̀ ω •́ )y！</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1071,7 +1096,7 @@ K:=输入的字符串的最大长度</script><h3 id="1-先说一下自己的一�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
