@@ -161,6 +161,255 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/09/LC56-%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="haitao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haitao's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/09/LC56-%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/" class="post-title-link" itemprop="url">LC56-合并区间</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-09 19:48:52 / Modified: 20:50:20" itemprop="dateCreated datePublished" datetime="2020-07-09T19:48:52+08:00">2020-07-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给出一个区间的集合，请合并所有重叠的区间。</p>
+<p>示例 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [[1,3],[2,6],[8,10],[15,18]]</span><br><span class="line">输出: [[1,6],[8,10],[15,18]]</span><br><span class="line">解释: 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].</span><br></pre></td></tr></table></figure><br>示例 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [[1,4],[4,5]]</span><br><span class="line">输出: [[1,5]]</span><br><span class="line">解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/merge-intervals" target="_blank" rel="noopener">https://leetcode-cn.com/problems/merge-intervals</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>为了解决问题的方便，首先将原来的二维数组排序（按照每个区间的首元素，从小到大）<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[1,3],[2,6],[15,18],[8,10]] &#x3D;&gt; [[1,3],[2,6],[8,10],[15,18]]</span><br></pre></td></tr></table></figure><br>我们定义相关变量:</p>
+<script type="math/tex; mode=display">
+nums_{sorted}:=按照上述要求排序好的List[List[int]]</script><script type="math/tex; mode=display">
+dp(i):=nums_{sorted}[0,1,2...,i]合并区间了之后的结果，类型：List[List[int]]</script><p>定义状态转移方程:</p>
+<script type="math/tex; mode=display">
+dp(i+1)=
+\begin{cases}
+d(i) \cup nums_{sorted}[i+1] &dp(i)[-1] \cap nums_{sorted}[i+1] = \varnothing\\
+modify \; dp(i)[-1] \; as \; max(dp(i)[-1][1],nums_{sorted}[i][1])& \text{otherwise}
+\end{cases}</script><p>定义状态转移方程的边界</p>
+<script type="math/tex; mode=display">
+dp[0] :=nums_{sorted}[0]</script><p>相关的代码实现如下所示：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">merge</span><span class="params">(self, intervals)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type intervals: List[List[int]]</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> intervals:<span class="keyword">return</span> []</span><br><span class="line">        intervals.sort()</span><br><span class="line">        dp = [intervals[<span class="number">0</span>]]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, intervals.__len__()):</span><br><span class="line">            <span class="keyword">if</span> dp[<span class="number">-1</span>][<span class="number">1</span>] &lt; intervals[i][<span class="number">0</span>]:</span><br><span class="line">                dp.append(intervals[i])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dp[<span class="number">-1</span>][<span class="number">1</span>] = max(dp[<span class="number">-1</span>][<span class="number">1</span>], intervals[i][<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> dp</span><br></pre></td></tr></table></figure><br>以上的算法复杂度为$O(nlog+n)=O(nlogn)$<br>顺利通过~( •̀ ω •́ )y</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/09/LC55-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="haitao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haitao's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/09/LC55-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F/" class="post-title-link" itemprop="url">LC55-跳跃游戏</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-09 12:27:58 / Modified: 13:27:14" itemprop="dateCreated datePublished" datetime="2020-07-09T12:27:58+08:00">2020-07-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个非负整数数组，你最初位于数组的第一个位置。</p>
+<p>数组中的每个元素代表你在该位置可以跳跃的最大长度。</p>
+<p>判断你是否能够到达最后一个位置。</p>
+<p>示例 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [2,3,1,1,4]</span><br><span class="line">输出: true</span><br><span class="line">解释: 我们可以先跳 1 步，从位置 0 到达 位置 1, 然后再从位置 1 跳 3 步到达最后一个位置。</span><br></pre></td></tr></table></figure><br>示例 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [3,2,1,0,4]</span><br><span class="line">输出: false</span><br><span class="line">解释: 无论怎样，你总会到达索引为 3 的位置。但该位置的最大跳跃长度是 0 ， 所以你永远不可能到达最后一个位置。</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/jump-game" target="_blank" rel="noopener">https://leetcode-cn.com/problems/jump-game</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h2 id="思考与代码"><a href="#思考与代码" class="headerlink" title="思考与代码"></a>思考与代码</h2><h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>首先我们定义相关变量</p>
+<script type="math/tex; mode=display">
+f(i):=nums[0,1,2,3...,i]的最大可达范围</script><p>然后我们定义状态转移方程</p>
+<script type="math/tex; mode=display">
+f(i+1)=
+\begin{cases}
+f(i)& \text{ f(i)<i+1 }\\
+max(f(i),i+1+nums[i+1])& \text{otherwise}
+\end{cases}</script><p>状态方程的边界如下</p>
+<script type="math/tex; mode=display">f(0):=nums[0]</script><p>最后返回</p>
+<script type="math/tex; mode=display">
+f(n) \ge lens(nums)</script><p>就好…<br>代码实现：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">canJump</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, nums.__len__() - <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> nums[i] &lt; i + <span class="number">1</span>:</span><br><span class="line">                nums[i + <span class="number">1</span>] = nums[i]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                nums[i + <span class="number">1</span>] = max(nums[i], i + <span class="number">1</span> + nums[i + <span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">-1</span>] &gt;= nums.__len__() - <span class="number">1</span> <span class="keyword">or</span> nums.__len__() == <span class="number">1</span></span><br></pre></td></tr></table></figure><br>显然这个的算法复杂度为为$O(n)$<br>显然这个算法并不够好，他会傻傻的吧所有的数组遍历一边，有的测试例可能连一半都走不到，但是还是会遍历，现在对上面的算法进行改进值得把完全不可能的场景给排除</p>
+<h3 id="动态规划的改进"><a href="#动态规划的改进" class="headerlink" title="动态规划的改进"></a>动态规划的改进</h3><p>代码如下，主要是将连中途都完不成的情况给排除了2333<br>确实变快了一点点…<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">canJump</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, nums.__len__() - <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> nums[i] &lt; i + <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                nums[i + <span class="number">1</span>] = max(nums[i], i + <span class="number">1</span> + nums[i + <span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">-1</span>] &gt;= nums.__len__() - <span class="number">1</span> <span class="keyword">or</span> nums.__len__() == <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/09/LC53-%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="haitao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haitao's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/09/LC53-%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C/" class="post-title-link" itemprop="url">LC53-最大子序和</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-09 08:01:46" itemprop="dateCreated datePublished" datetime="2020-07-09T08:01:46+08:00">2020-07-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-12 18:58:43" itemprop="dateModified" datetime="2020-07-12T18:58:43+08:00">2020-07-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
+<p>示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [-2,1,-3,4,-1,2,1,-5,4],</span><br><span class="line">输出: 6</span><br><span class="line">解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。</span><br></pre></td></tr></table></figure><br>进阶:<br>如果你已经实现复杂度为 $O(n)$的解法，尝试使用更为精妙的分治法求解。</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/maximum-subarray" target="_blank" rel="noopener">https://leetcode-cn.com/problems/maximum-subarray</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="思考与代码"><a href="#思考与代码" class="headerlink" title="思考与代码"></a>思考与代码</h1><h3 id="1-暴力法"><a href="#1-暴力法" class="headerlink" title="1.暴力法"></a>1.暴力法</h3><p>对子序列的长度和子序列的开头做遍历，最终的到结果，算法的复杂度为$O(n^2)$<br>想法比较简单，直接上代码，我估计应该过不了一两个点。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSubArray</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        res = <span class="number">-1</span> * <span class="number">2</span> ** <span class="number">31</span></span><br><span class="line">        <span class="keyword">for</span> length <span class="keyword">in</span> range(<span class="number">1</span>, nums.__len__() + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> begin <span class="keyword">in</span> range(<span class="number">0</span>, nums.__len__() + <span class="number">1</span> - length):</span><br><span class="line">                res = max(res, sum(nums[begin:begin + length]))</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure><br>果然和我猜测的一样，难受~</p>
+<h3 id="2-动态规划"><a href="#2-动态规划" class="headerlink" title="2. 动态规划"></a>2. 动态规划</h3><p>上述有很多的重叠子问题都算了一边所以导致效率比较低，现在采用动态规划的想法。<br>首先我们定义相关的变量</p>
+<script type="math/tex; mode=display">
+f(i):=nums[0,1,2...,i]的最大连续的子数和</script><p>状态转移方程如下：</p>
+<script type="math/tex; mode=display">
+f(i) = max(f(i-1)+nums[i],nums[i])</script><p>状态转移方程的边界为：</p>
+<script type="math/tex; mode=display">
+f(0) = nums[0]</script><p>不难发现此算法的复杂度为$O(n)$<br>我们将上面的算法代码化，代码如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSubArray</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(<span class="number">1</span>, nums.__len__()):</span><br><span class="line">            nums[index] = max(nums[index - <span class="number">1</span>] + nums[index], nums[index])</span><br><span class="line">        <span class="keyword">return</span> max(nums)</span><br></pre></td></tr></table></figure><br>解决了，( •̀ ω •́ )y</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/09/LC49-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -760,283 +1009,10 @@ K:=输入的字符串的最大长度</script><h3 id="1-先说一下自己的一�
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/LC31-%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%8E%92%E5%88%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="haitao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Haitao's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/05/LC31-%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%8E%92%E5%88%97/" class="post-title-link" itemprop="url">LC31-下一个排列</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-05 15:02:31 / Modified: 22:12:11" itemprop="dateCreated datePublished" datetime="2020-07-05T15:02:31+08:00">2020-07-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。<br>如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。<br>必须原地修改，只允许使用额外常数空间。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">以下是一些例子，输入位于左侧列，其相应输出位于右侧列。</span><br><span class="line">1,2,3 → 1,3,2</span><br><span class="line">3,2,1 → 1,2,3</span><br><span class="line">1,1,5 → 1,5,1</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/next-permutation" target="_blank" rel="noopener">https://leetcode-cn.com/problems/next-permutation</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="思考-amp-代码"><a href="#思考-amp-代码" class="headerlink" title="思考&amp;代码"></a>思考&amp;代码</h1><h2 id="1-暴力解法"><a href="#1-暴力解法" class="headerlink" title="1. 暴力解法"></a>1. 暴力解法</h2><p>假设有输入的数字有n个元素，则我们可以得到$n!$种可能性，我们遍历者$n!-1$个元素，<br>我们选择比输入大且与其差值最小的元素。<br>所以算法复杂度为$O(n!+n)=O(n!)$<br>阶乘的样子，看来是没办法用这个方法聊</p>
-<h2 id="2-一个比较巧妙的方法"><a href="#2-一个比较巧妙的方法" class="headerlink" title="2. 一个比较巧妙的方法"></a>2. 一个比较巧妙的方法</h2><p>我们首先来看一些显然的东西</p>
-<ul>
-<li>大数字靠前，整体数字越大</li>
-<li>小数字靠后, 整体数字越大</li>
-<li>升序，整体最大</li>
-<li>降序，整体最大</li>
-</ul>
-<p>然后我们在来以1，2，3，4，5，6为例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">n1:123456</span><br><span class="line">n2:123465</span><br><span class="line">n3:123546</span><br><span class="line">n4:123564</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">n6!:654321</span><br></pre></td></tr></table></figure></p>
-<p>如果输入的数字为$n_x$,则我们要输出$n_{x+1}$<br>如何得到这样的排列顺序？这是本文的重点。我们可以这样来分析：</p>
-<ul>
-<li>我们希望下一个数比当前数大，这样才满足“下一个排列”的定义。因此只需要将后面的「大数」与前面的「小数」交换，就能得到一个更大的数。<ul>
-<li>比如 123456，将 5 和 6 交换就能得到一个更大的数 123465。</li>
-</ul>
-</li>
-<li>我们还希望下一个数增加的幅度尽可能的小，这样才满足“下一个排列与当前排列紧邻“的要求。为了满足这个要求，我们需要：<ul>
-<li>在尽可能靠右的低位进行交换，需要从后向前查找</li>
-<li>将一个 尽可能小的「大数」 与前面的「小数」交换。比如 123465，下一个排列应该把 5 和 4 交换而不是把 6 和 4 交换</li>
-</ul>
-</li>
-<li>将「大数」换到前面后，需要将「大数」后面的所有数重置为升序，升序排列就是最小的排列。<ul>
-<li>以 123465 为例：首先按照上一步，交换 5 和 4，得到 123564；然后需要将 5 之后的数重置为升序，得到 123546。显然 123546 比 123564 更小，123546 就是 123465 的下一个排列</li>
-</ul>
-</li>
-</ul>
-<p>下面说一下伪代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">从nums[]的倒数第二个元素向前遍历，每次循环元素为i</span><br><span class="line">    从i元素到最后一个元素的集合中找到最小的比nums[i]大的元素</span><br><span class="line">    交换</span><br><span class="line">    排序nums[i]以后的元素</span><br></pre></td></tr></table></figure><br>下面我写一下自己的代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.INTMAX = <span class="number">2</span> ** <span class="number">31</span> - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">nextPermutation</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: None Do not return anything, modify nums in-place instead.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(nums.__len__() - <span class="number">2</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">            min_greater, min_greater_index = self.INTMAX, <span class="literal">None</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i + <span class="number">1</span>, nums.__len__(), <span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> nums[j] &gt; nums[i]:</span><br><span class="line">                    <span class="keyword">if</span> min_greater &gt; nums[j]:</span><br><span class="line">                        min_greater_index = j</span><br><span class="line">                        min_greater = nums[j]</span><br><span class="line">            <span class="keyword">if</span> min_greater &gt; nums[i] <span class="keyword">and</span> min_greater != self.INTMAX:</span><br><span class="line">                tmp = nums[i]</span><br><span class="line">                nums[i] = nums[min_greater_index]</span><br><span class="line">                nums[min_greater_index] = tmp</span><br><span class="line">                nums[i + <span class="number">1</span>:] = sorted(nums[i + <span class="number">1</span>:])</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        nums.reverse()</span><br></pre></td></tr></table></figure><br>此时复杂度为$O(n^2)$</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/LC22-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="haitao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Haitao's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/05/LC22-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/" class="post-title-link" itemprop="url">LC22-括号生成</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-05 08:48:33 / Modified: 10:28:36" itemprop="dateCreated datePublished" datetime="2020-07-05T08:48:33+08:00">2020-07-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">示例：</span><br><span class="line">输入：n &#x3D; 3</span><br><span class="line">输出：[</span><br><span class="line">       &quot;((()))&quot;,</span><br><span class="line">       &quot;(()())&quot;,</span><br><span class="line">       &quot;(())()&quot;,</span><br><span class="line">       &quot;()(())&quot;,</span><br><span class="line">       &quot;()()()&quot;</span><br><span class="line">     ]</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/generate-parentheses" target="_blank" rel="noopener">https://leetcode-cn.com/problems/generate-parentheses</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="思考-amp-代码"><a href="#思考-amp-代码" class="headerlink" title="思考&amp;代码"></a>思考&amp;代码</h1><h2 id="1-1-暴力求解"><a href="#1-1-暴力求解" class="headerlink" title="1.1 暴力求解"></a>1.1 暴力求解</h2><p>暴力求解主要分为两步</p>
-<ul>
-<li>生成所有的可能，总共有$2^{2n}$种可能<ul>
-<li>如何便利所有的可能性&lt;递归&gt;？<br>  <img src="/2020/07/05/LC22-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/953272C6113FC5DFC1CDF24610AD130D.png" alt="alt"></li>
-</ul>
-</li>
-<li>判断每个可能是否有效，对于每一个可能的复杂度为$O(n)$<ul>
-<li>这个问题较为简单只要判断”(“与”)”的个数是否相同</li>
-</ul>
-</li>
-</ul>
-<p>所以说整体的算法复杂度为:$O(2^{2n} \times n)$<br>代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.res = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__isValid</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="keyword">assert</span> s.__len__() &gt; <span class="number">0</span></span><br><span class="line">        right_num, left_num = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">            <span class="keyword">if</span> i == <span class="string">"("</span>:</span><br><span class="line">                left_num += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                right_num += <span class="number">1</span></span><br><span class="line">            <span class="comment"># 防止出现)(这种情况</span></span><br><span class="line">            <span class="keyword">if</span> right_num &gt; left_num:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> right_num == left_num</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__recurrence</span><span class="params">(self, tmp_str, n)</span>:</span></span><br><span class="line">        <span class="comment"># 递归的出口</span></span><br><span class="line">        <span class="keyword">if</span> tmp_str.__len__() == <span class="number">2</span> * n:</span><br><span class="line">            <span class="keyword">if</span> self.__isValid(tmp_str):</span><br><span class="line">                self.res.append(tmp_str)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.__recurrence(tmp_str + <span class="string">"("</span>, n)</span><br><span class="line">            self.__recurrence(tmp_str + <span class="string">")"</span>, n)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">generateParenthesis</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: List[str]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> n &lt;= <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        self.__recurrence(<span class="string">""</span>, n)</span><br><span class="line">        <span class="keyword">return</span> self.res</span><br></pre></td></tr></table></figure></p>
-<h2 id="1-2-回溯算法"><a href="#1-2-回溯算法" class="headerlink" title="1.2 回溯算法"></a>1.2 回溯算法</h2><p>上面这个题我只是无脑添加，遍历了所有的可能，就连”((((((“,这样离谱的东西也要搜索，所以说是十分低效的。我们可以只在序列仍然保持有效时才添加 ‘(‘ or ‘)’，而不是像暴力解法那样每次添加。我们可以通过跟踪到目前为止放置的左括号和右括号的数目来做到这一点</p>
-<ul>
-<li>如果左括号数量小于 n，我们可以放一个左括号。</li>
-<li>如果右括号数量小于左括号的数量，我们可以放一个右括号。</li>
-</ul>
-<p>在此规则下，此程序的搜索范围为：<br><img src="/2020/07/05/LC22-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/66B24E794F6B773BC9CAE441B4043677.png" alt="alt"></p>
-<p>代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.res = []</span><br><span class="line">        self.n = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__backTrack</span><span class="params">(self, tmp_str, left, right)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> tmp_str.__len__() == <span class="number">2</span> * self.n:</span><br><span class="line">            self.res.append(tmp_str)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> left &lt; self.n:</span><br><span class="line">                self.__backTrack(tmp_str + <span class="string">"("</span>, left + <span class="number">1</span>, right)</span><br><span class="line">            <span class="keyword">if</span> right &lt; left:</span><br><span class="line">                self.__backTrack(tmp_str + <span class="string">")"</span>, left, right + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">generateParenthesis</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: List[str]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> n &lt;= <span class="number">0</span>: <span class="keyword">return</span> []</span><br><span class="line">        self.n = n</span><br><span class="line">        self.__backTrack(<span class="string">""</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> self.res</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/04/LC15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="haitao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Haitao's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/04/LC15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/" class="post-title-link" itemprop="url">LC15-三数之和</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-04 15:39:03" itemprop="dateCreated datePublished" datetime="2020-07-04T15:39:03+08:00">2020-07-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-05 08:49:21" itemprop="dateModified" datetime="2020-07-05T08:49:21+08:00">2020-07-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。<br>注意：答案中不可以包含重复的三元组。<br>示例：<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">给定数组 nums &#x3D; [-1, 0, 1, 2, -1, -4]，</span><br><span class="line">满足要求的三元组集合为：</span><br><span class="line">[</span><br><span class="line">[-1, 0, 1],</span><br><span class="line">[-1, -1, 2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/3sum" target="_blank" rel="noopener">https://leetcode-cn.com/problems/3sum</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ul>
-<li>hashmap<br>  整体的复杂度为$O(n^2)$,但是会TLE，总有两个点过不去，所以采用了双指针的方法<br>  充分应用排序的结果进行高效有序的搜索<ul>
-<li>排序：$O(nlog(n))$</li>
-<li>建立hashmap：$O(n)$</li>
-<li>固定两个元素然后再hashmap中索引 $O(n^2)$</li>
-</ul>
-</li>
-<li>双链表<br>  每次的双指针搜索的复杂度为$O(n)$，总共要搜索n次。则整体的算法复杂度为$O(n^2)$<br>  但是效果比hashmap的方法要好<br>  算法的核心思想如下：<ul>
-<li>首先排序</li>
-<li>固定第一个元素，然后确定后两个元素之和（即：第一个元素的相反数）</li>
-<li>然后类似LC11的样子，分别让两个指针从第一个元素后和结尾相向搜索</li>
-</ul>
-</li>
-</ul>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><ul>
-<li>hashmap  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">threeSum</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        nums_len = len(nums)</span><br><span class="line">        <span class="keyword">if</span> nums_len &lt; <span class="number">3</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        <span class="keyword">if</span> nums_len == <span class="number">3</span>:</span><br><span class="line">            <span class="keyword">if</span> sum(nums) == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> [nums]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> []</span><br><span class="line">        nums.sort()</span><br><span class="line">        <span class="keyword">if</span> nums[<span class="number">0</span>] &gt; <span class="number">0</span> <span class="keyword">or</span> nums[<span class="number">-1</span>] &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        <span class="keyword">if</span> nums[<span class="number">0</span>] == <span class="number">0</span> <span class="keyword">and</span> nums[<span class="number">-1</span>] == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> [[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]]</span><br><span class="line">        res = []</span><br><span class="line">        hash_map = &#123;&#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">if</span> i <span class="keyword">in</span> hash_map:</span><br><span class="line">                hash_map[i] += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                hash_map[i] = <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(nums_len - <span class="number">2</span>):</span><br><span class="line">            <span class="keyword">if</span> i != <span class="number">0</span> <span class="keyword">and</span> nums[i] == nums[i - <span class="number">1</span>]:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i + <span class="number">1</span>, nums_len - <span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> j != i + <span class="number">1</span> <span class="keyword">and</span> nums[j] == nums[j - <span class="number">1</span>]:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                left = <span class="number">0</span> - nums[i] - nums[j]</span><br><span class="line">                left_in_map = hash_map.get(left)</span><br><span class="line">                tmp_list = [nums[i], nums[j], left]</span><br><span class="line">                tmp_list.sort()</span><br><span class="line">                <span class="keyword">if</span> left_in_map <span class="keyword">and</span> left_in_map - (nums[i] == left) - (nums[j] == left) &gt;= <span class="number">1</span> \</span><br><span class="line">                        <span class="keyword">and</span> tmp_list <span class="keyword">not</span> <span class="keyword">in</span> res:</span><br><span class="line">                    res.append(tmp_list)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure></li>
-<li>双指针  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">threeSum</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :type nums: List[int]</span></span><br><span class="line"><span class="string">    :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    nums_len = len(nums)</span><br><span class="line">    <span class="keyword">if</span> nums_len &lt; <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line">    nums.sort()</span><br><span class="line">    res = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(nums_len - <span class="number">2</span>):</span><br><span class="line">        <span class="keyword">if</span> i != <span class="number">0</span> <span class="keyword">and</span> nums[i] == nums[i - <span class="number">1</span>]:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        k = nums_len - <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i + <span class="number">1</span>, nums_len - <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> j != i + <span class="number">1</span> <span class="keyword">and</span> nums[j] == nums[j - <span class="number">1</span>]:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            target = - (nums[i] + nums[j])</span><br><span class="line">            <span class="keyword">while</span> j &lt; k:</span><br><span class="line">                <span class="keyword">if</span> nums[k] &gt; target:</span><br><span class="line">                    k -= <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">assert</span> j &gt;= k <span class="keyword">or</span> nums[k] &lt;= target</span><br><span class="line">            <span class="keyword">if</span> j &gt;= k:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">elif</span> nums[k] &lt; target:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                res.append([nums[i], nums[j], nums[k]])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1102,7 +1078,7 @@ K:=输入的字符串的最大长度</script><h3 id="1-先说一下自己的一�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1115,7 +1091,7 @@ K:=输入的字符串的最大长度</script><h3 id="1-先说一下自己的一�
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
