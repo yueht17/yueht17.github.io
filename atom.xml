@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-26T17:10:10.059Z</updated>
+  <updated>2020-07-28T12:48:39.127Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,39 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LC581-最短无序连续子数组</title>
+    <link href="http://yoursite.com/2020/07/27/LC581-%E6%9C%80%E7%9F%AD%E6%97%A0%E5%BA%8F%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%95%B0%E7%BB%84/"/>
+    <id>http://yoursite.com/2020/07/27/LC581-%E6%9C%80%E7%9F%AD%E6%97%A0%E5%BA%8F%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%95%B0%E7%BB%84/</id>
+    <published>2020-07-27T04:57:12.000Z</published>
+    <updated>2020-07-28T12:48:39.127Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个整数数组，你需要寻找一个连续的子数组，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。</p><p>你找到的子数组应是最短的，请输出它的长度。</p><p>示例 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [2, 6, 4, 8, 10, 9, 15]</span><br><span class="line">输出: 5</span><br><span class="line">解释: 你只需要对 [6, 4, 8, 10, 9] 进行升序排序，那么整个表都会变为升序排序。</span><br></pre></td></tr></table></figure><br>说明 :</p><ul><li>输入的数组长度范围在 [1, 10,000]。</li><li>输入的数组可能包含重复元素 ，所以升序的意思是&lt;=。</li></ul><p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/shortest-unsorted-continuous-subarray" target="_blank" rel="noopener">https://leetcode-cn.com/problems/shortest-unsorted-continuous-subarray</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p><h1 id="代码与思路"><a href="#代码与思路" class="headerlink" title="代码与思路"></a>代码与思路</h1><p>自己想了个算法复杂度为$O(n)$的双指针的方法，整体的思路如下</p><ul><li>从左向右遍历，找到最小的$L_{index}$使得$nums[L_{index}]&lt;nums[L_{index} -1]$</li><li>从右向左遍历，找到最大的$R_{index}$使得$nums[R_{index}]&gt;nums[R_{index} +1]$</li><li>找出两个两个最值<script type="math/tex; mode=display">min = \min\{nums[L_{index}:R_{index}]\},max= \max\{nums[L_{index}:R_{index}]\}</script></li><li>$L_{index},R_{index}$两个指针分别向两个方向扩散，使得:<script type="math/tex; mode=display">nums[L_{index}] \le min</script><script type="math/tex; mode=display">nums[R_{index}] \ge max</script></li><li>最后返回$R_{index}-L_{index}$</li></ul><p>具体的代码实现如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findUnsortedSubarray</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> nums.__len__() &lt;= <span class="number">1</span>: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> left_index <span class="keyword">in</span> range(<span class="number">0</span>, nums.__len__() - <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> nums[left_index] &gt; nums[left_index + <span class="number">1</span>]:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">for</span> right_index <span class="keyword">in</span> range(nums.__len__() - <span class="number">1</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">if</span> nums[right_index - <span class="number">1</span>] &gt; nums[right_index]:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">if</span> right_index &lt;= left_index:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            min_item, max_item = min(nums[left_index:right_index + <span class="number">1</span>]), max(nums[left_index:right_index + <span class="number">1</span>])</span><br><span class="line">            <span class="keyword">while</span> left_index &gt; <span class="number">0</span> <span class="keyword">and</span> nums[left_index - <span class="number">1</span>] &gt; min_item:</span><br><span class="line">                left_index -= <span class="number">1</span></span><br><span class="line">            <span class="keyword">while</span> right_index &lt; nums.__len__() - <span class="number">1</span> <span class="keyword">and</span> nums[right_index + <span class="number">1</span>] &lt; max_item:</span><br><span class="line">                right_index += <span class="number">1</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span> + right_index - left_index</span><br></pre></td></tr></table></figure><br>woc，这破代码竟然效果这么好，妈呀！！！<br><img src="/2020/07/27/LC581-%E6%9C%80%E7%9F%AD%E6%97%A0%E5%BA%8F%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%95%B0%E7%BB%84/msedge_w47bssoHbm.png" alt="alt"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h1&gt;&lt;p&gt;给定一个整数数组，你需要寻找一个连续的子数组，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。&lt;/p&gt;
+&lt;p&gt;你找到的子数组应是
+      
+    
+    </summary>
+    
+    
+      <category term="刷题笔记" scheme="http://yoursite.com/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="leetcode" scheme="http://yoursite.com/tags/leetcode/"/>
+    
+      <category term="双指针" scheme="http://yoursite.com/tags/%E5%8F%8C%E6%8C%87%E9%92%88/"/>
+    
+      <category term="数组" scheme="http://yoursite.com/tags/%E6%95%B0%E7%BB%84/"/>
+    
+  </entry>
   
   <entry>
     <title>LC121-买卖股票的最佳时机</title>
@@ -109,9 +142,9 @@
     
       <category term="leetcode" scheme="http://yoursite.com/tags/leetcode/"/>
     
-      <category term="数组" scheme="http://yoursite.com/tags/%E6%95%B0%E7%BB%84/"/>
-    
       <category term="双指针" scheme="http://yoursite.com/tags/%E5%8F%8C%E6%8C%87%E9%92%88/"/>
+    
+      <category term="数组" scheme="http://yoursite.com/tags/%E6%95%B0%E7%BB%84/"/>
     
   </entry>
   
@@ -178,12 +211,12 @@
   
   <entry>
     <title>LC239-滑动窗口最大值</title>
-    <link href="http://yoursite.com/2020/07/25/LC239-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC##########/"/>
-    <id>http://yoursite.com/2020/07/25/LC239-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC##########/</id>
+    <link href="http://yoursite.com/2020/07/25/LC239-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC/"/>
+    <id>http://yoursite.com/2020/07/25/LC239-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC/</id>
     <published>2020-07-25T15:04:14.000Z</published>
-    <updated>2020-07-26T05:08:26.234Z</updated>
+    <updated>2020-07-28T13:43:55.134Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。<br>返回滑动窗口中的最大值。</p><p>进阶：</p><ul><li>你能在线性时间复杂度内解决此题吗？</li></ul><p>示例:<br><img src="/2020/07/25/LC239-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC##########/msedge_21jwD4bLV5.png" alt="alt"></p><p>提示：</p><ul><li>$1 &lt;= nums.length &lt;= 10^5$ </li><li>$-10^4 &lt;= nums[i] &lt;= 10^4$</li><li>$1 &lt;= k &lt;= nums.length$</li></ul><p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/sliding-window-maximum" target="_blank" rel="noopener">https://leetcode-cn.com/problems/sliding-window-maximum</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p><h1 id="代码与思路"><a href="#代码与思路" class="headerlink" title="代码与思路"></a>代码与思路</h1><h3 id="1-暴力法"><a href="#1-暴力法" class="headerlink" title="1. 暴力法"></a>1. 暴力法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSlidingWindow</span><span class="params">(self, nums, k)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> [max(nums[begin:begin+k]) <span class="keyword">for</span> begin <span class="keyword">in</span> range(nums.__len__()-k+<span class="number">1</span>)]</span><br></pre></td></tr></table></figure><p>复杂度分析</p><ul><li>时间复杂度$O(Nk)$</li><li>空间复杂度$O(k)$</li></ul><h1 id="2-堆"><a href="#2-堆" class="headerlink" title="2. 堆"></a>2. 堆</h1>]]></content>
+    <content type="html"><![CDATA[<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。<br>返回滑动窗口中的最大值。</p><p>进阶：</p><ul><li>你能在线性时间复杂度内解决此题吗？</li></ul><p>示例:<br><img src="/2020/07/25/LC239-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC/msedge_21jwD4bLV5.png" alt="alt"></p><p>提示：</p><ul><li>$1 &lt;= nums.length &lt;= 10^5$ </li><li>$-10^4 &lt;= nums[i] &lt;= 10^4$</li><li>$1 &lt;= k &lt;= nums.length$</li></ul><p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/sliding-window-maximum" target="_blank" rel="noopener">https://leetcode-cn.com/problems/sliding-window-maximum</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p><h1 id="代码与思路"><a href="#代码与思路" class="headerlink" title="代码与思路"></a>代码与思路</h1><h3 id="1-暴力法"><a href="#1-暴力法" class="headerlink" title="1. 暴力法"></a>1. 暴力法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSlidingWindow</span><span class="params">(self, nums, k)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> [max(nums[begin:begin+k]) <span class="keyword">for</span> begin <span class="keyword">in</span> range(nums.__len__()-k+<span class="number">1</span>)]</span><br></pre></td></tr></table></figure><p>复杂度分析</p><ul><li>时间复杂度$O(Nk)$</li><li>空间复杂度$O(k)$</li></ul><h3 id="2-堆"><a href="#2-堆" class="headerlink" title="2. 堆"></a>2. 堆</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSlidingWindow</span><span class="params">(self, nums, k)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type k: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        heap, res = [], []</span><br><span class="line">        <span class="keyword">for</span> begin <span class="keyword">in</span> range(nums.__len__() - k + <span class="number">1</span>):</span><br><span class="line">            heap = [<span class="number">-1</span> * item <span class="keyword">for</span> item <span class="keyword">in</span> nums[begin:begin + k]]</span><br><span class="line">            heapq.heapify(heap)</span><br><span class="line">            res.append(<span class="number">-1</span> * heapq.heappop(heap))</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure><p>复杂度分析</p><ul><li>时间复杂度$O(N\log(k))$</li><li>空间复杂度$O(k)$</li></ul><p>还是超级慢TLE过不了…</p><h3 id="3-动态规划"><a href="#3-动态规划" class="headerlink" title="3. 动态规划"></a>3. 动态规划</h3><p>动态规划的思路十分的巧妙，其复杂度分析</p><ul><li>时间复杂度$O(N)$</li><li>空间复杂度$O(N)$</li></ul><p>其算法思想如下所示<br>算法的思想是将输入数组分割成有$k$个元素的块。<br>若 $n \% k \ne 0$，则最后一块的元素个数可能更少。<br><img src="/2020/07/25/LC239-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC/msedge_NvLEtfBAZe.png" alt="alt"></p><p>开头元素为 $i$ ，结尾元素为 $j$ 的当前滑动窗口可能在一个块内，也可能在两个块中。<br><img src="/2020/07/25/LC239-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC/msedge_CByLVbuQTW.png" alt="alt"></p><p>如果我们定义了如下的数组/动态规划的状态</p><script type="math/tex; mode=display">left:= 从块的开始到下标 j 最大的元素，方向左->右</script><script type="math/tex; mode=display">rigt:= 从块的结束到下标 j 最大的元素，方向右->左</script><p>则我们只需要最后返回<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> [max(right[i],left[i+k<span class="number">-1</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> range(nums.__len__()) ]</span><br></pre></td></tr></table></figure></p><p>好的整体的算法思想就是这样，下面给出具体的代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSlidingWindow</span><span class="params">(self, nums, k)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type k: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        left, right = nums[:], nums[:]</span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(<span class="number">1</span>, nums.__len__()):</span><br><span class="line">            <span class="keyword">if</span> index % k != <span class="number">0</span>: left[index] = max(left[index - <span class="number">1</span>], nums[index])</span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(nums.__len__() - <span class="number">2</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">if</span> index % k != k - <span class="number">1</span>: right[index] = max(right[index + <span class="number">1</span>], nums[index])</span><br><span class="line">        <span class="keyword">return</span> [max(right[i], left[i + k - <span class="number">1</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> range(nums.__len__() - k + <span class="number">1</span>)]</span><br></pre></td></tr></table></figure></p><p>对以上代码优化，只做一次遍历<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSlidingWindow</span><span class="params">(self, nums, k)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type k: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        left, right = nums[:], nums[:]</span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(<span class="number">1</span>, nums.__len__()):</span><br><span class="line">            <span class="keyword">if</span> index % k != <span class="number">0</span>: left[index] = max(left[index - <span class="number">1</span>], nums[index])</span><br><span class="line">            rev_index = nums.__len__() - <span class="number">1</span> - index</span><br><span class="line">            <span class="keyword">if</span> rev_index % k != k - <span class="number">1</span>: right[rev_index] = max(right[rev_index + <span class="number">1</span>], nums[rev_index])</span><br><span class="line">        <span class="keyword">return</span> [max(right[i], left[i + k - <span class="number">1</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> range(nums.__len__() - k + <span class="number">1</span>)]</span><br></pre></td></tr></table></figure><br>顺利通过，( •̀ ω •́ )y！</p>]]></content>
     
     <summary type="html">
     
@@ -201,6 +234,8 @@
       <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
     
       <category term="leetcode" scheme="http://yoursite.com/tags/leetcode/"/>
+    
+      <category term="动态规划" scheme="http://yoursite.com/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
     
       <category term="堆" scheme="http://yoursite.com/tags/%E5%A0%86/"/>
     
@@ -448,9 +483,9 @@
     
       <category term="leetcode" scheme="http://yoursite.com/tags/leetcode/"/>
     
-      <category term="树" scheme="http://yoursite.com/tags/%E6%A0%91/"/>
-    
       <category term="动态规划" scheme="http://yoursite.com/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
+    
+      <category term="树" scheme="http://yoursite.com/tags/%E6%A0%91/"/>
     
       <category term="深度优先搜索" scheme="http://yoursite.com/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/"/>
     
@@ -622,36 +657,6 @@
       <category term="leetcode" scheme="http://yoursite.com/tags/leetcode/"/>
     
       <category term="树" scheme="http://yoursite.com/tags/%E6%A0%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LC198-打家劫舍</title>
-    <link href="http://yoursite.com/2020/07/21/LC198-%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/"/>
-    <id>http://yoursite.com/2020/07/21/LC198-%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/</id>
-    <published>2020-07-21T11:23:14.000Z</published>
-    <updated>2020-07-21T12:21:10.757Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</p><p>给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">示例 1：</span><br><span class="line"></span><br><span class="line">输入：[1,2,3,1]</span><br><span class="line">输出：4</span><br><span class="line">解释：偷窃 1 号房屋 (金额 &#x3D; 1) ，然后偷窃 3 号房屋 (金额 &#x3D; 3)。</span><br><span class="line">     偷窃到的最高金额 &#x3D; 1 + 3 &#x3D; 4 。</span><br><span class="line">示例 2：</span><br><span class="line"></span><br><span class="line">输入：[2,7,9,3,1]</span><br><span class="line">输出：12</span><br><span class="line">解释：偷窃 1 号房屋 (金额 &#x3D; 2), 偷窃 3 号房屋 (金额 &#x3D; 9)，接着偷窃 5 号房屋 (金额 &#x3D; 1)。</span><br><span class="line">     偷窃到的最高金额 &#x3D; 2 + 9 + 1 &#x3D; 12 。</span><br></pre></td></tr></table></figure><p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/house-robber" target="_blank" rel="noopener">https://leetcode-cn.com/problems/house-robber</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p><h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><p>这个题是个典型的动态规划的题目，首先我们定义动态规划的状态</p><script type="math/tex; mode=display">dp[i]:=表示nums[0:i](包括i)的最优偷取结果</script><p>显然我们可以得到状态转移方程：</p><script type="math/tex; mode=display">dp[i]=max(dp[i-1],dp[i-2]+nums[i])</script><p>其中注意</p><script type="math/tex; mode=display">dp[i]=dp[i-1] \Rightarrow 不偷nums[i]</script><script type="math/tex; mode=display">dp[i]=dp[i-2]+nums[i] \Rightarrow 偷nums[i]</script><p>下面给出状态转移方程的边界</p><script type="math/tex; mode=display">\left\{\begin{aligned}dp[0] & =  nums[0]；只有一家，那我一定要偷啊 \\dp[1] & =  max(nums[0],nums[1])；有两家那我选多的一家偷 \\\end{aligned}\right.</script><p>好的，主要的算法如上，下面给出具体实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rob</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> nums: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        nums_len = nums.__len__()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, nums_len):</span><br><span class="line">            <span class="keyword">if</span> i == <span class="number">1</span>:</span><br><span class="line">                nums[i] = max(nums[<span class="number">0</span>], nums[<span class="number">1</span>])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                nums[i] = max(nums[i - <span class="number">1</span>], nums[i - <span class="number">2</span>] + nums[i])</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">-1</span>]</span><br></pre></td></tr></table></figure></p><p>一次成功，oh yeah！<br>时间复杂度为$O(n)$</p><p>空间复杂度为$O(1)$</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h1&gt;&lt;p&gt;你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻
-      
-    
-    </summary>
-    
-    
-      <category term="刷题笔记" scheme="http://yoursite.com/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"/>
-    
-    
-      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
-    
-      <category term="leetcode" scheme="http://yoursite.com/tags/leetcode/"/>
-    
-      <category term="动态规划" scheme="http://yoursite.com/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
     
   </entry>
   

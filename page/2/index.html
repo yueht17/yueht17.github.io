@@ -161,6 +161,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/25/LC394-%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A7%A3%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="haitao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haitao's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/25/LC394-%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A7%A3%E7%A0%81/" class="post-title-link" itemprop="url">LC394-字符串解码</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-25 01:23:18 / Modified: 08:35:34" itemprop="dateCreated datePublished" datetime="2020-07-25T01:23:18+08:00">2020-07-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个经过编码的字符串，返回它解码后的字符串。</p>
+<p>编码规则为: k[encoded_string]，表示其中方括号内部的 encoded_string 正好重复 k 次。注意 k 保证为正整数。</p>
+<p>你可以认为输入字符串总是有效的；输入字符串中没有额外的空格，且输入的方括号总是符合格式要求的。</p>
+<p>此外，你可以认为原始数据不包含数字，所有的数字只表示重复的次数 k ，例如不会出现像 3a 或 2[4] 的输入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">示例 1：</span><br><span class="line"></span><br><span class="line">输入：s &#x3D; &quot;3[a]2[bc]&quot;</span><br><span class="line">输出：&quot;aaabcbc&quot;</span><br><span class="line">示例 2：</span><br><span class="line"></span><br><span class="line">输入：s &#x3D; &quot;3[a2[c]]&quot;</span><br><span class="line">输出：&quot;accaccacc&quot;</span><br><span class="line">示例 3：</span><br><span class="line"></span><br><span class="line">输入：s &#x3D; &quot;2[abc]3[cd]ef&quot;</span><br><span class="line">输出：&quot;abcabccdcdcdef&quot;</span><br><span class="line">示例 4：</span><br><span class="line"></span><br><span class="line">输入：s &#x3D; &quot;abc3[cd]xyz&quot;</span><br><span class="line">输出：&quot;abccdcdcdxyz&quot;</span><br></pre></td></tr></table></figure>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/decode-string" target="_blank" rel="noopener">https://leetcode-cn.com/problems/decode-string</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="代码与思路"><a href="#代码与思路" class="headerlink" title="代码与思路"></a>代码与思路</h1><p>这个题目还是比较难受和恶心的。<br>我们要从最里面的括号层层向外解决，最终知道其内部没有括号和数字为止。所以为深度优先<br>那么我们可以用栈这种数据结构来很好的解决此问题。<br>我们的算法具体如下</p>
+<blockquote>
+<p>构建辅助栈 stack， 遍历字符串 s 中每个字符 c；</p>
+<ul>
+<li>当 c 为数字时，将数字字符转化为数字 multi，用于后续倍数计算；<font color="red">注意极有可能是两位数字</font></li>
+<li>当 c 为字母时，在 res 尾部添加 c；</li>
+<li>当 c 为 [ 时，将当前 multi 和 res 入栈，并分别置空置 00：<ul>
+<li>记录此 [ 前的临时结果 res 至栈，用于发现对应 ] 后的拼接操作；</li>
+<li>记录此 [ 前的倍数 multi 至栈，用于发现对应 ] 后，获取 multi × […] 字符串。</li>
+<li>进入到新 [ 后，res 和 multi 重新记录。</li>
+</ul>
+</li>
+<li>当 c 为 ] 时，stack 出栈，拼接字符串 res = last_res + cur_multi * res，其中:<ul>
+<li>last_res是上个 [ 到当前 [ 的字符串，例如 “3[a2[c]]” 中的 a；</li>
+<li>cur_multi是当前 [ 到 ] 内字符串的重复倍数，例如 “3[a2[c]]” 中的 2。<br>最后返回字符串 res。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>好的，我们具体的代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decodeString</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: str</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        stack, res, multi = [], <span class="string">""</span>, <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> s:</span><br><span class="line">            <span class="keyword">if</span> <span class="string">'0'</span> &lt;= item &lt;= <span class="string">'9'</span>:</span><br><span class="line">                multi = multi * <span class="number">10</span> + int(item)</span><br><span class="line">            <span class="keyword">elif</span> <span class="string">'a'</span> &lt;= item &lt;= <span class="string">'z'</span> <span class="keyword">or</span> <span class="string">'A'</span> &lt;= item &lt;= <span class="string">'Z'</span>:</span><br><span class="line">                res += item</span><br><span class="line">            <span class="keyword">elif</span> item == <span class="string">'['</span>:</span><br><span class="line">                stack.append((multi, res))</span><br><span class="line">                multi, res = <span class="number">0</span>, <span class="string">""</span></span><br><span class="line">            <span class="keyword">elif</span> item == <span class="string">']'</span>:</span><br><span class="line">                _multi, _res = stack.pop()</span><br><span class="line">                res = _res + _multi * res</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">raise</span> Exception(<span class="string">"invalid item"</span>)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/25/LC739-%E6%AF%8F%E6%97%A5%E6%B8%A9%E5%BA%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -943,93 +1037,6 @@ maxGain(root):=该节点为根节点的子树中寻找以该节点为起点的�
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/21/LC198-%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="haitao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Haitao's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/21/LC198-%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/" class="post-title-link" itemprop="url">LC198-打家劫舍</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-21 19:23:14 / Modified: 20:21:10" itemprop="dateCreated datePublished" datetime="2020-07-21T19:23:14+08:00">2020-07-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</p>
-<p>给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">示例 1：</span><br><span class="line"></span><br><span class="line">输入：[1,2,3,1]</span><br><span class="line">输出：4</span><br><span class="line">解释：偷窃 1 号房屋 (金额 &#x3D; 1) ，然后偷窃 3 号房屋 (金额 &#x3D; 3)。</span><br><span class="line">     偷窃到的最高金额 &#x3D; 1 + 3 &#x3D; 4 。</span><br><span class="line">示例 2：</span><br><span class="line"></span><br><span class="line">输入：[2,7,9,3,1]</span><br><span class="line">输出：12</span><br><span class="line">解释：偷窃 1 号房屋 (金额 &#x3D; 2), 偷窃 3 号房屋 (金额 &#x3D; 9)，接着偷窃 5 号房屋 (金额 &#x3D; 1)。</span><br><span class="line">     偷窃到的最高金额 &#x3D; 2 + 9 + 1 &#x3D; 12 。</span><br></pre></td></tr></table></figure>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/house-robber" target="_blank" rel="noopener">https://leetcode-cn.com/problems/house-robber</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><p>这个题是个典型的动态规划的题目，首先我们定义动态规划的状态</p>
-<script type="math/tex; mode=display">
-dp[i]:=表示nums[0:i](包括i)的最优偷取结果</script><p>显然我们可以得到状态转移方程：</p>
-<script type="math/tex; mode=display">
-dp[i]=max(dp[i-1],dp[i-2]+nums[i])</script><p>其中注意</p>
-<script type="math/tex; mode=display">
-dp[i]=dp[i-1] \Rightarrow 不偷nums[i]</script><script type="math/tex; mode=display">
-dp[i]=dp[i-2]+nums[i] \Rightarrow 偷nums[i]</script><p>下面给出状态转移方程的边界</p>
-<script type="math/tex; mode=display">\left\{
-\begin{aligned}
-dp[0] & =  nums[0]；只有一家，那我一定要偷啊 \\
-dp[1] & =  max(nums[0],nums[1])；有两家那我选多的一家偷 \\
-\end{aligned}
-\right.</script><p>好的，主要的算法如上，下面给出具体实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rob</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> nums: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        nums_len = nums.__len__()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, nums_len):</span><br><span class="line">            <span class="keyword">if</span> i == <span class="number">1</span>:</span><br><span class="line">                nums[i] = max(nums[<span class="number">0</span>], nums[<span class="number">1</span>])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                nums[i] = max(nums[i - <span class="number">1</span>], nums[i - <span class="number">2</span>] + nums[i])</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">-1</span>]</span><br></pre></td></tr></table></figure></p>
-<p>一次成功，oh yeah！<br>时间复杂度为$O(n)$</p>
-<p>空间复杂度为$O(1)$</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1099,7 +1106,7 @@ dp[1] & =  max(nums[0],nums[1])；有两家那我选多的一家偷 \\
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-count">68</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
