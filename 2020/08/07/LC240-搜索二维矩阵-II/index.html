@@ -20,23 +20,21 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="题目有 n 个气球，编号为0 到 n-1，每个气球上都标有一个数字，这些数字存在数组 nums 中。 现在要求你戳破所有的气球。如果你戳破气球 i ，就可以获得 nums[left]  nums[i]  nums[right] 个硬币。 这里的 left 和 right 代表和 i 相邻的两个气球的序号。注意当你戳破了气球 i 后，气球 left 和气球 right 就变成了相邻的气球。 求所能获">
+  <meta name="description" content="题目编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：  每行的元素从左到右升序排列。 每列的元素从上到下升序排列。  示例:12345678现有矩阵 matrix 如下：[  [1,   4,  7, 11, 15],  [2,   5,  8, 12, 19],  [3,   6,  9, 16, 22],  [10, 13, 14,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LC312-戳气球">
-<meta property="og:url" content="http://yoursite.com/2020/08/01/LC312-%E6%88%B3%E6%B0%94%E7%90%83###############################################################/index.html">
+<meta property="og:title" content="LC240-搜索二维矩阵 II">
+<meta property="og:url" content="http://yoursite.com/2020/08/07/LC240-%E6%90%9C%E7%B4%A2%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5-II/index.html">
 <meta property="og:site_name" content="Haitao&#39;s Blog">
-<meta property="og:description" content="题目有 n 个气球，编号为0 到 n-1，每个气球上都标有一个数字，这些数字存在数组 nums 中。 现在要求你戳破所有的气球。如果你戳破气球 i ，就可以获得 nums[left]  nums[i]  nums[right] 个硬币。 这里的 left 和 right 代表和 i 相邻的两个气球的序号。注意当你戳破了气球 i 后，气球 left 和气球 right 就变成了相邻的气球。 求所能获">
+<meta property="og:description" content="题目编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：  每行的元素从左到右升序排列。 每列的元素从上到下升序排列。  示例:12345678现有矩阵 matrix 如下：[  [1,   4,  7, 11, 15],  [2,   5,  8, 12, 19],  [3,   6,  9, 16, 22],  [10, 13, 14,">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-07-31T23:49:05.000Z">
-<meta property="article:modified_time" content="2020-08-02T05:27:09.863Z">
+<meta property="article:published_time" content="2020-08-07T00:27:59.000Z">
+<meta property="article:modified_time" content="2020-08-08T01:36:24.916Z">
 <meta property="article:author" content="haitao">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="leetcode">
-<meta property="article:tag" content="动态规划">
-<meta property="article:tag" content="分治算法">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/08/01/LC312-%E6%88%B3%E6%B0%94%E7%90%83###############################################################/">
+<link rel="canonical" href="http://yoursite.com/2020/08/07/LC240-%E6%90%9C%E7%B4%A2%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5-II/">
 
 
 <script id="page-configurations">
@@ -49,7 +47,7 @@
   };
 </script>
 
-  <title>LC312-戳气球 | Haitao's Blog</title>
+  <title>LC240-搜索二维矩阵 II | Haitao's Blog</title>
   
 
 
@@ -170,7 +168,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/01/LC312-%E6%88%B3%E6%B0%94%E7%90%83###############################################################/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/07/LC240-%E6%90%9C%E7%B4%A2%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5-II/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -183,7 +181,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          LC312-戳气球
+          LC240-搜索二维矩阵 II
         </h1>
 
         <div class="post-meta">
@@ -193,14 +191,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-08-01 07:49:05" itemprop="dateCreated datePublished" datetime="2020-08-01T07:49:05+08:00">2020-08-01</time>
+              <time title="Created: 2020-08-07 08:27:59" itemprop="dateCreated datePublished" datetime="2020-08-07T08:27:59+08:00">2020-08-07</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-02 13:27:09" itemprop="dateModified" datetime="2020-08-02T13:27:09+08:00">2020-08-02</time>
+                <time title="Modified: 2020-08-08 09:36:24" itemprop="dateModified" datetime="2020-08-08T09:36:24+08:00">2020-08-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -223,29 +221,54 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>有 n 个气球，编号为0 到 n-1，每个气球上都标有一个数字，这些数字存在数组 nums 中。</p>
-<p>现在要求你戳破所有的气球。如果你戳破气球 i ，就可以获得 nums[left] <em> nums[i] </em> nums[right] 个硬币。 这里的 left 和 right 代表和 i 相邻的两个气球的序号。注意当你戳破了气球 i 后，气球 left 和气球 right 就变成了相邻的气球。</p>
-<p>求所能获得硬币的最大数量。</p>
-<p>说明:</p>
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：</p>
 <ul>
-<li>你可以假设 nums[-1] = nums[n] = 1，但注意它们不是真实存在的所以并不能被戳破。</li>
-<li>0 ≤ n ≤ 500, 0 ≤ nums[i] ≤ 100</li>
+<li>每行的元素从左到右升序排列。</li>
+<li>每列的元素从上到下升序排列。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">示例:</span><br><span class="line">输入: [3,1,5,8]</span><br><span class="line">输出: 167 </span><br><span class="line">解释: nums &#x3D; [3,1,5,8] --&gt; [3,5,8] --&gt;   [3,8]   --&gt;  [8]  --&gt; []</span><br><span class="line">     coins &#x3D;  3*1*5      +  3*5*8    +  1*3*8      + 1*8*1   &#x3D; 167</span><br></pre></td></tr></table></figure>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/burst-balloons" target="_blank" rel="noopener">https://leetcode-cn.com/problems/burst-balloons</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="代码与思路"><a href="#代码与思路" class="headerlink" title="代码与思路"></a>代码与思路</h1><h3 id="自顶向下"><a href="#自顶向下" class="headerlink" title="自顶向下"></a>自顶向下</h3><p>首先我们递归加记忆实现，看看能不能过oj的测试<br>以下是具体的代码实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.memory = &#123;tuple([]): <span class="number">0</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxCoins</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> tuple(nums) <span class="keyword">in</span> self.memory: <span class="keyword">return</span> self.memory[tuple(nums)]</span><br><span class="line">        <span class="keyword">assert</span> tuple(nums) <span class="keyword">not</span> <span class="keyword">in</span> self.memory <span class="keyword">and</span> nums.__len__() &gt;= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> nums.__len__() == <span class="number">1</span>:</span><br><span class="line">            self.memory[tuple(nums)] = nums[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">elif</span> nums.__len__() == <span class="number">2</span>:</span><br><span class="line">            self.memory[tuple(nums)] = nums[<span class="number">0</span>] * nums[<span class="number">1</span>] + max(nums)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            all_list = []</span><br><span class="line">            <span class="keyword">for</span> target <span class="keyword">in</span> range(nums.__len__()):</span><br><span class="line">                <span class="keyword">if</span> target == <span class="number">0</span>:</span><br><span class="line">                    coins = nums[target] * nums[target + <span class="number">1</span>]</span><br><span class="line">                <span class="keyword">elif</span> target == nums.__len__() - <span class="number">1</span>:</span><br><span class="line">                    coins = nums[target - <span class="number">1</span>] * nums[target]</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    coins = nums[target - <span class="number">1</span>] * nums[target] * nums[target + <span class="number">1</span>]</span><br><span class="line">                new_nums = nums[<span class="number">0</span>:target] + nums[target + <span class="number">1</span>:nums.__len__()]</span><br><span class="line">                all_list.append(coins + self.maxCoins(new_nums))</span><br><span class="line">            self.memory[tuple(nums)] = max(all_list)</span><br><span class="line">        <span class="keyword">return</span> self.memory[tuple(nums)]</span><br></pre></td></tr></table></figure><br>TLE了，过不去，难受啊…</p>
-<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>这种递归加记忆化的搜索的方法理论上可行，但是递归的栈数太多了，容易爆栈…<br>所以我们自底向上进行求解.</p>
-<p>但是我们观察戳气球的操作，发现这会导致两个气球从不相邻变成相邻，使得后续操作难以处理。<font color="red">于是我们倒过来看这些操作，将全过程看作是每次添加一个气球。</font>这样的话我们就可以复用前边的操作答案了。</p>
-<p>首先我们定义所要涉及到的状态变量</p>
+<p>示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">现有矩阵 matrix 如下：</span><br><span class="line">[</span><br><span class="line">  [1,   4,  7, 11, 15],</span><br><span class="line">  [2,   5,  8, 12, 19],</span><br><span class="line">  [3,   6,  9, 16, 22],</span><br><span class="line">  [10, 13, 14, 17, 24],</span><br><span class="line">  [18, 21, 23, 26, 30]</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>给定 target = 5，返回 true。</li>
+<li>给定 target = 20，返回 false。</li>
+</ul>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/search-a-2d-matrix-ii" target="_blank" rel="noopener">https://leetcode-cn.com/problems/search-a-2d-matrix-ii</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><h3 id="暴力搜索"><a href="#暴力搜索" class="headerlink" title="暴力搜索"></a>暴力搜索</h3><p>最简单的想法就是暴力搜索了，这样搜索的话算法复杂度为$O(mn)$,首先测试一下可不可以过，然后再做优化。</p>
+<p>代码实现如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">searchMatrix</span><span class="params">(self, matrix, target)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type matrix: List[List[int]]</span></span><br><span class="line"><span class="string">        :type target: int</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> matrix <span class="keyword">and</span> matrix[<span class="number">0</span>]:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(matrix.__len__()):</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> range(matrix[<span class="number">0</span>].__len__()):</span><br><span class="line">                    <span class="keyword">if</span> matrix[i][j] == target: <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure><br>暴力搜索显然是可以通过的，但是成绩比较差，我们现在采用不同的方法~</p>
+<h3 id="巧妙的一个方法"><a href="#巧妙的一个方法" class="headerlink" title="巧妙的一个方法"></a>巧妙的一个方法</h3><p>首先，如果我们采用二分或者分治的话可能会十分的啰嗦，下面我看别人的算法，自己写一个吧，这个方法实在很妙,再给出算法之前，我们先考虑一下这个问题：</p>
 <script type="math/tex; mode=display">
-dp[i][j]:=填满开区间 (i,j)(i,j) 能得到的最多硬币数</script><p>然后我们可以定义状态转移方程</p>
-<script type="math/tex; mode=display">dp[i][j]=
-\begin{cases}
-\max_{mid=i+1}^{j-1}\{nums[i]*nums[mid]*nums[j] + dp[i][k]+dp[k][j]\}& \text{i<j-1}\\
-0& \text{otherwise}
-\end{cases}</script><p>状态转移方程的边界</p>
-<script type="math/tex; mode=display">
-dp[i][j]:=0 \;\;\; i \ge j-1</script><font color="red">动态规划求解的顺序</font>
+给定一个元素matrix[i][j]其上下左右的元素与matrix[i][j]有何关系？</script><p>我们不难发现</p>
+<ul>
+<li>$matrix[i][j]&gt;matrix[i][j-1]$</li>
+<li>$matrix[i][j]&gt;matrix[i-1][j]$</li>
+<li>$matrix[i][j]&lt;matrix[i][j+1]$</li>
+<li>$matrix[i][j]&lt;matrix[i][j+1]$</li>
+</ul>
+<p>如果我们随机初始化一个位置作为初始的起点然后搜索，我们会遇到一下两个问题</p>
+<ul>
+<li>if $target&gt;matrix[i][j]$, 我们现在有两条路可以走，分别是$i++$ or $j++$</li>
+<li>if $target&lt;matrix[i][j]$, 我们现在有两条路可以走，分别是$i—$ or $j—$</li>
+</ul>
+<p>那么如何解决这个问题呢？</p>
+<font color="red">
+$$
+以matrix[-1][0]作为搜索的起始位置
+$$
+</font>
+
+<ul>
+<li><p>if $target &gt; matrix[i][j]$, 我们现在有两条路可以走，分别是 $j++$</p>
+</li>
+<li><p>if $target &lt; matrix[i][j]$, 我们现在有两条路可以走，分别是 $i—$</p>
+</li>
+</ul>
+<p>这个算法的性能是十分高的，它有效的排除了不可能的状态空间~</p>
+<ul>
+<li>时间复杂度$O(m+n)$</li>
+<li>空间复杂度$O(1)$</li>
+</ul>
+<p>一下给出代码实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">searchMatrix</span><span class="params">(self, matrix, target)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type matrix: List[List[int]]</span></span><br><span class="line"><span class="string">        :type target: int</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> matrix <span class="keyword">and</span> matrix[<span class="number">0</span>]:</span><br><span class="line">            row_max, col_max = matrix.__len__(), matrix[<span class="number">0</span>].__len__()</span><br><span class="line">            row, col = row_max - <span class="number">1</span>, <span class="number">0</span></span><br><span class="line">            <span class="keyword">while</span> <span class="number">0</span> &lt;= row &lt;= row_max - <span class="number">1</span> <span class="keyword">and</span> <span class="number">0</span> &lt;= col &lt;= col_max - <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">if</span> matrix[row][col] == target:</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">                <span class="keyword">elif</span> matrix[row][col] &lt; target:</span><br><span class="line">                    col += <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    row -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure></p>
+<p>速度将近提升了8倍，( •̀ ω •́ )y</p>
+
     </div>
 
     
@@ -256,8 +279,6 @@ dp[i][j]:=0 \;\;\; i \ge j-1</script><font color="red">动态规划求解的顺�
           <div class="post-tags">
               <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
               <a href="/tags/leetcode/" rel="tag"># leetcode</a>
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag"># 动态规划</a>
-              <a href="/tags/%E5%88%86%E6%B2%BB%E7%AE%97%E6%B3%95/" rel="tag"># 分治算法</a>
           </div>
 
         
@@ -266,12 +287,12 @@ dp[i][j]:=0 \;\;\; i \ge j-1</script><font color="red">动态规划求解的顺�
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/08/01/LC287-%E5%AF%BB%E6%89%BE%E9%87%8D%E5%A4%8D%E6%95%B0/" rel="prev" title="LC287-寻找重复数">
-      <i class="fa fa-chevron-left"></i> LC287-寻找重复数
+    <a href="/2020/08/04/LC416-%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86#####################################################/" rel="prev" title="LC416-分割等和子集">
+      <i class="fa fa-chevron-left"></i> LC416-分割等和子集
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/08/02/LC238-%E9%99%A4%E8%87%AA%E8%BA%AB%E4%BB%A5%E5%A4%96%E6%95%B0%E7%BB%84%E7%9A%84%E4%B9%98%E7%A7%AF/" rel="next" title="LC238-除自身以外数组的乘积">
-      LC238-除自身以外数组的乘积 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/08/07/LC146-LRU%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" rel="next" title="LC146-LRU缓存机制">
+      LC146-LRU缓存机制 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -331,7 +352,7 @@ dp[i][j]:=0 \;\;\; i \ge j-1</script><font color="red">动态规划求解的顺�
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码与思路"><span class="nav-number">2.</span> <span class="nav-text">代码与思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自顶向下"><span class="nav-number">2.0.1.</span> <span class="nav-text">自顶向下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态规划"><span class="nav-number">2.0.2.</span> <span class="nav-text">动态规划</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思路与代码"><span class="nav-number">2.</span> <span class="nav-text">思路与代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#暴力搜索"><span class="nav-number">2.0.1.</span> <span class="nav-text">暴力搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#巧妙的一个方法"><span class="nav-number">2.0.2.</span> <span class="nav-text">巧妙的一个方法</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -345,20 +366,20 @@ dp[i][j]:=0 \;\;\; i \ge j-1</script><font color="red">动态规划求解的顺�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">33</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
