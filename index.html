@@ -161,7 +161,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/08/[AlgrithmStudy]-KnapsackProblem/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/13/LC89-%E6%A0%BC%E9%9B%B7%E7%BC%96%E7%A0%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -175,212 +175,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/08/08/%5BAlgrithmStudy%5D-KnapsackProblem/" class="post-title-link" itemprop="url">【AlgrithmStudy】-KnapsackProblem</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-08-08 16:57:08" itemprop="dateCreated datePublished" datetime="2020-08-08T16:57:08+08:00">2020-08-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-09 09:00:11" itemprop="dateModified" datetime="2020-08-09T09:00:11+08:00">2020-08-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">算法学习笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="背包问题-Knapsack-Problem"><a href="#背包问题-Knapsack-Problem" class="headerlink" title="背包问题(Knapsack Problem)"></a>背包问题(Knapsack Problem)</h1><p>[TOC]</p>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本片笔记主要记录一下自己学习背包问题的一些过程，学习资料和参考如下</p>
-<ul>
-<li><a href="https://github.com/tianyicui/pack" target="_blank" rel="noopener">《背包九讲》</a></li>
-<li><a href="https://www.cnblogs.com/dhName/p/13345502.html" target="_blank" rel="noopener">《leetcode中背包问题相关汇总》</a></li>
-</ul>
-<h3 id="01-背包问题"><a href="#01-背包问题" class="headerlink" title="01 背包问题"></a>01 背包问题</h3><h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>有 $N$ 件物品和一个容量为 $V$ 的背包。放入第 $i$ 件物品耗费的费用是 $C_i$(也即占用背包的空间容量，后文统一称之为“费用 (cost)”)，得到的价值是 $W_i$。求解将哪些物品装入背包可使价值总和最大。<br><img src="/2020/08/08/[AlgrithmStudy]-KnapsackProblem/A0AA669A064F0BA0FCABD80FCE4BE6D5.png" alt="alt"></p>
-<h4 id="问题特点"><a href="#问题特点" class="headerlink" title="问题特点"></a>问题特点</h4><ul>
-<li>每种物品仅有一件，可以选择放或不放</li>
-</ul>
-<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>定义状态</p>
-<script type="math/tex; mode=display">
-F[i, v]:=前 i 件物品恰放入一个容量为 v 的背包可以获得的最大价值</script><p>状态转移方程</p>
-<script type="math/tex; mode=display">
-F[i, v] = \max\{F[i − 1, v], F[i − 1, v − C_i] + W_i\}</script><p>状态转移方程的含义：</p>
-<p>“将前 $i$ 件物品放入容量为 $v$ 的背包中”这个子问题，若只考虑第 $i$ 件物品的策略（放或不放），那么就可以转化为一个只和前 $i − 1$ 件物品相关的问题。</p>
-<ul>
-<li>如果不放第 $i$ 件物品，那么问题就转化为“前 $i − 1$ 件物品放入容量为 $v$ 的背包中”，价值为 $F[i − 1, v]$；</li>
-<li>如果放第 $i$ 件物品，那么问题就转化为“前 $i − 1$ 件物品放入剩下的容量为 $v − C_i$ 的背包中”，此时能获得的最大价值就是 $F[i − 1, v − C_i]$通过放入第 i 件物品获得的价值 $W_i$。</li>
-</ul>
-<h5 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">F[<span class="number">0</span>, <span class="number">0.</span>.V ] ← <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i ← <span class="number">1</span> to N</span><br><span class="line">    <span class="keyword">for</span> v ← C[i] to V</span><br><span class="line">        F[i, v] ← max&#123;F[i − <span class="number">1</span>, v], F[i − <span class="number">1</span>, v − C[i]] + W[i]&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="算法复杂度分析与优化"><a href="#算法复杂度分析与优化" class="headerlink" title="算法复杂度分析与优化"></a>算法复杂度分析与优化</h4><p>时间和空间复杂度均为$O(VN)$,但是我们其中时间复杂度应该已经不能再优化<br>了，但空间复杂度却可以优化到 $O(V )$。先考虑上面讲的基本思路如何实现，<br>肯定是有一个主循环 $i ← 1 . . . N$，每次算出来二维数组 $F[i, 0 . . . V ]$ 的所有值。</p>
-<p>那么，如果只用一个数组 $F[0 . . . V ]$，能不能保证第$ i$次循环结束后,<br>$F[v]$ 中表示的就是我们定义的状态 $F[i, v]$ 呢？$F[i, v]$ 是由 $F[i − 1, v]$ 和$F[i − 1, v − C_i]$ 两个子问题递推而来，能否保证在推 $F[i, v]$ 时（也即在第 $i$ 次主循环中推 $F[v]$ 时）能够取用 $F[i − 1, v]$ 和 $F[i − 1, v − C_i]$ 的值呢？</p>
-<p>事实上，这要求在每次主循环中我们以 $v ← V . . . 0$ 的递减顺序计算 $F[v]$，这样才<br>能保证计算 $F[v]$ 时 $F[v − C_i]$ 保存的是状态 $F[i − 1, v − C_i]$ 的值。伪代码如下：</p>
-<h5 id="伪代码-1"><a href="#伪代码-1" class="headerlink" title="伪代码"></a>伪代码</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">F[<span class="number">0.</span>.V ] ←<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i ← <span class="number">1</span> to N</span><br><span class="line">    <span class="keyword">for</span> v ← V to C[i]</span><br><span class="line">        F[v] ← max&#123;F[v], F[v − C[i]] + W[i]&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="初始化的细节问题"><a href="#初始化的细节问题" class="headerlink" title="初始化的细节问题"></a>初始化的细节问题</h4><p>我们看到的求最优解的背包问题题目中，事实上有两种不太相同的问法。</p>
-<ul>
-<li>有的题目要求“恰好装满背包”时的最优解，</li>
-<li>有的题目则并没有要求必须把背包装满。</li>
-</ul>
-<p>这两种问法的实现方法是在初始化的时候有所不同。</p>
-<ul>
-<li><p>如果是第一种问法，要求恰好装满背包，那么在初始化时除了 $F[0]$ 为 $0$，其它$F[1..V ]$ 均设为 $- \infty $，这样就可以保证最终得到的 $F[V]$ 是一种恰好装满背包的最优解。</p>
-</li>
-<li><p>如果并没有要求必须把背包装满，而是只希望价格尽量大，初始化时应该将 F[0..V ]全部设为 0。</p>
-</li>
-</ul>
-<p>这是为什么呢？可以这样理解：初始化的 $F$ 数组事实上就是在没有任何物品可以放<br>入背包时的合法状态。如果要求背包恰好装满，那么此时只有容量为 0 的背包可以在什<br>么也不装且价值为 0 的情况下被“恰好装满”，其它容量的背包均没有合法的解，属于<br>未定义的状态，应该被赋值为 $-\infty$ 了。如果背包并非必须被装满，那么任何容量的背包<br>都有一个合法解“什么都不装”，这个解的价值为 0，所以初始时状态的值也就全部为 0<br>了。</p>
-<p>这个小技巧完全可以推广到其它类型的背包问题，后面不再对进行状态转移之前的<br>初始化进行讲解。</p>
-<h4 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h4><ul>
-<li><a href="https://leetcode-cn.com/problems/partition-equal-subset-sum" target="_blank" rel="noopener">LC416-分割等和子集</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/07/LC76-%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="haitao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Haitao's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/07/LC76-%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/" class="post-title-link" itemprop="url">LC76-最小覆盖子串</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-08-07 17:38:18" itemprop="dateCreated datePublished" datetime="2020-08-07T17:38:18+08:00">2020-08-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-08 09:33:00" itemprop="dateModified" datetime="2020-08-08T09:33:00+08:00">2020-08-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个字符串 S、一个字符串 T 。请你设计一种算法，可以在 O(n) 的时间复杂度内，从字符串 S 里面找出：包含 T 所有字符的最小子串。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">示例：</span><br><span class="line">输入：S &#x3D; &quot;ADOBECODEBANC&quot;, T &#x3D; &quot;ABC&quot;</span><br><span class="line">输出：&quot;BANC&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">提示：</span><br><span class="line">- 如果 S 中不存这样的子串，则返回空字符串 &quot;&quot;。</span><br><span class="line">- 如果 S 中存在这样的子串，我们保证它是唯一的答案。</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/minimum-window-substring" target="_blank" rel="noopener">https://leetcode-cn.com/problems/minimum-window-substring</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><h3 id="1-暴力解法"><a href="#1-暴力解法" class="headerlink" title="1.暴力解法"></a>1.暴力解法</h3><p>这个方法是比较暴力的，只用将长度为$lens(T)$到$lens(S)$的所有字串搜索一边就好了~<br>代码实现如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.t = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_isSubStringValid</span><span class="params">(self, substring)</span> -&gt; bool:</span></span><br><span class="line">        substring_hash_map = Counter(substring)</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> self.t:</span><br><span class="line">            <span class="keyword">if</span> item <span class="keyword">not</span> <span class="keyword">in</span> substring_hash_map <span class="keyword">or</span> substring_hash_map[item] &lt;= <span class="number">0</span>: <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">            substring_hash_map[item] -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minWindow</span><span class="params">(self, s: str, t: str)</span> -&gt; str:</span></span><br><span class="line">        self.t = t</span><br><span class="line">        <span class="keyword">for</span> length <span class="keyword">in</span> range(t.__len__(), s.__len__() + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> begin <span class="keyword">in</span> range(<span class="number">0</span>, s.__len__() - length + <span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> self._isSubStringValid(s[begin:begin + length]): <span class="keyword">return</span> s[begin:begin + length]</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span></span><br></pre></td></tr></table></figure><br>TLE了，难受~<br>暴力搜索显然不可取</p>
-<h3 id="2-滑动窗口"><a href="#2-滑动窗口" class="headerlink" title="2.滑动窗口"></a>2.滑动窗口</h3><p>我们可以用滑动窗口的思想解决这个问题，在滑动窗口类型的问题中都会有两个指针。</p>
-<ul>
-<li>一个用于「延伸」现有窗口的 $r$ 指针</li>
-<li>一个用于「收缩」窗口的 $l$ 指针</li>
-</ul>
-<p>注意：</p>
-<ul>
-<li>在任意时刻，只有一个指针运动，</li>
-<li>一个保持静止。我们在 $s$ 上滑动窗口，通过移动 $r$ 指针不断扩张窗口。</li>
-<li>当窗口包含 $t$ 全部所需的字符后，如果能收缩，我们就收缩窗口直到得到最小窗口。</li>
-</ul>
-<p><img src="/2020/08/07/LC76-%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/76_fig1.gif" alt="alt"></p>
-<p>代码实现，自己写的真的是稀烂啊<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.need = <span class="literal">None</span></span><br><span class="line">        self.window = <span class="literal">None</span></span><br><span class="line">        self.res = <span class="string">""</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__isWindowValid</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> key, value <span class="keyword">in</span> self.need.items():</span><br><span class="line">            <span class="keyword">if</span> self.window.get(key) <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> self.window.get(key) &lt; value:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minWindow</span><span class="params">(self, s: str, t: str)</span> -&gt; str:</span></span><br><span class="line">        <span class="keyword">if</span> s == t: <span class="keyword">return</span> s</span><br><span class="line">        self.need, self.window = dict(Counter(t)), &#123;s[_]: <span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(s.__len__())&#125;</span><br><span class="line">        self.window[s[<span class="number">0</span>]], i, j = <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> j &lt; s.__len__() - <span class="number">1</span>:</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> <span class="keyword">not</span> self.__isWindowValid() <span class="keyword">and</span> j &lt; s.__len__():</span><br><span class="line">                j += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> j &lt; s.__len__():</span><br><span class="line">                    self.window[s[j]] += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> self.__isWindowValid() <span class="keyword">and</span> i &lt;= j:</span><br><span class="line">                self.window[s[i]] -= <span class="number">1</span></span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> j &lt; s.__len__():</span><br><span class="line">                self.res = s[i - <span class="number">1</span>:j + <span class="number">1</span>] <span class="keyword">if</span> self.res == <span class="string">""</span> <span class="keyword">or</span> self.res.__len__() &gt; s[i - <span class="number">1</span>:j + <span class="number">1</span>].__len__() <span class="keyword">else</span> self.res</span><br><span class="line">        <span class="keyword">return</span> self.res</span><br></pre></td></tr></table></figure></p>
-<p>我哭了…真的~</p>
-<p><img src="/2020/08/07/LC76-%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/msedge_RfLyVCaIMD.png" alt="alt"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/07/LC208-%E5%AE%9E%E7%8E%B0-Trie-%E5%89%8D%E7%BC%80%E6%A0%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="haitao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Haitao's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/07/LC208-%E5%AE%9E%E7%8E%B0-Trie-%E5%89%8D%E7%BC%80%E6%A0%91/" class="post-title-link" itemprop="url">LC208-实现 Trie (前缀树)</a>
+            <a href="/2020/08/13/LC89-%E6%A0%BC%E9%9B%B7%E7%BC%96%E7%A0%81/" class="post-title-link" itemprop="url">LC89-格雷编码</a>
         </h2>
 
         <div class="post-meta">
@@ -391,7 +186,7 @@ F[i, v] = \max\{F[i − 1, v], F[i − 1, v − C_i] + W_i\}</script><p>状态�
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-08-07 16:00:54 / Modified: 17:30:24" itemprop="dateCreated datePublished" datetime="2020-08-07T16:00:54+08:00">2020-08-07</time>
+              <time title="Created: 2020-08-13 08:12:17 / Modified: 09:10:06" itemprop="dateCreated datePublished" datetime="2020-08-13T08:12:17+08:00">2020-08-13</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -414,42 +209,259 @@ F[i, v] = \max\{F[i − 1, v], F[i − 1, v − C_i] + W_i\}</script><p>状态�
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>实现一个 Trie (前缀树)，包含 insert, search, 和 startsWith 这三个操作。</p>
-<p>示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Trie trie &#x3D; new Trie();</span><br><span class="line"></span><br><span class="line">trie.insert(&quot;apple&quot;);</span><br><span class="line">trie.search(&quot;apple&quot;);   &#x2F;&#x2F; 返回 true</span><br><span class="line">trie.search(&quot;app&quot;);     &#x2F;&#x2F; 返回 false</span><br><span class="line">trie.startsWith(&quot;app&quot;); &#x2F;&#x2F; 返回 true</span><br><span class="line">trie.insert(&quot;app&quot;);   </span><br><span class="line">trie.search(&quot;app&quot;);     &#x2F;&#x2F; 返回 true</span><br></pre></td></tr></table></figure><br>说明:</p>
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>格雷编码是一个二进制数字系统，在该系统中，两个连续的数值仅有一个位数的差异。</p>
+<p>给定一个代表编码总位数的非负整数 n，打印其格雷编码序列。即使有多个不同答案，你也只需要返回其中一种。</p>
+<p>格雷编码序列必须以 0 开头。</p>
+<p><strong>示例 1:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">输入: 2</span><br><span class="line">输出: [0,1,3,2]</span><br><span class="line">解释:</span><br><span class="line">00 - 0</span><br><span class="line">01 - 1</span><br><span class="line">11 - 3</span><br><span class="line">10 - 2</span><br><span class="line"></span><br><span class="line">对于给定的 n，其格雷编码序列并不唯一。</span><br><span class="line">例如，[0,2,3,1] 也是一个有效的格雷编码序列。</span><br><span class="line"></span><br><span class="line">00 - 0</span><br><span class="line">10 - 2</span><br><span class="line">11 - 3</span><br><span class="line">01 - 1</span><br></pre></td></tr></table></figure><br><strong>示例 2:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入: 0</span><br><span class="line">输出: [0]</span><br><span class="line">解释: 我们定义格雷编码序列必须以 0 开头。</span><br><span class="line">     给定编码总位数为 n 的格雷编码序列，其长度为 2n。当 n &#x3D; 0 时，长度为 20 &#x3D; 1。</span><br><span class="line">     因此，当 n &#x3D; 0 时，其格雷编码序列为 [0]。</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/gray-code" target="_blank" rel="noopener">https://leetcode-cn.com/problems/gray-code</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="代码与思路"><a href="#代码与思路" class="headerlink" title="代码与思路"></a>代码与思路</h1><h3 id="1-动态规划"><a href="#1-动态规划" class="headerlink" title="1. 动态规划"></a><del>1. 动态规划</del></h3><p>这个方法是我自己想的，但是感觉效率不咋行，但是先自己写一下吧</p>
+<script type="math/tex; mode=display">
+dp[i]:=[a_1,a_2,a_3....a_{2^i}] 表示数字i的格雷编码</script><p>所以状态转移方程为：</p>
+<script type="math/tex; mode=display">
+dp[i+1]:=[a_1<<1,(a_1<<1)+1,...,a_{2^i}<<1,(a_{2^i}<<1)+1]</script><p>初始化:</p>
+<script type="math/tex; mode=display">
+dp[0]:=[0]</script><p>代码实现：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">grayCode</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        curr = [<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, n + <span class="number">1</span>):</span><br><span class="line">            pre = curr[:]</span><br><span class="line">            curr = []</span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> pre:</span><br><span class="line">                curr.append(item &lt;&lt; <span class="number">1</span>)</span><br><span class="line">                curr.append((item &lt;&lt; <span class="number">1</span>) + <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> curr</span><br></pre></td></tr></table></figure></p>
+<p>这个方法是不对的啊…看来是我想的简单了<br><img src="/2020/08/13/LC89-%E6%A0%BC%E9%9B%B7%E7%BC%96%E7%A0%81/msedge_RaRA5kM5M4.png" alt="alt"></p>
+<h3 id="2-位运算技巧"><a href="#2-位运算技巧" class="headerlink" title="2. 位运算技巧"></a>2. 位运算技巧</h3><p>首先我们假设知道了<code>i</code>的格雷编码</p>
+<script type="math/tex; mode=display">
+Gray[i]:=[a_1,a_2,a_3....a_{2^i}]</script><p>我们以下两个运算：</p>
 <ul>
-<li>你可以假设所有的输入都是由小写字母 a-z 构成的。</li>
-<li>保证所有输入均为非空字符串。</li>
+<li>倒序<code>rev</code>:$rev(Gray[i]):=[a_{2^i},…,a_1]$</li>
+<li>最高位加<code>add1</code>:$add1(Gray[i]):=[2^n+a_1,2^n+a_2,…,2^n+a_{2^i}]$</li>
 </ul>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/implement-trie-prefix-tree" target="_blank" rel="noopener">https://leetcode-cn.com/problems/implement-trie-prefix-tree</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="思考与代码"><a href="#思考与代码" class="headerlink" title="思考与代码"></a>思考与代码</h1><blockquote>
-<p>Trie 是一颗非典型的多叉树模型，多叉好理解，即每个结点的分支数量可能为多个。</p>
-<p>为什么说非典型呢？因为它和一般的多叉树不一样，尤其在结点的数据结构设计上，比如一般的多叉树的结点是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;struct TreeNode &#123;</span><br><span class="line">   VALUETYPE value;    &#x2F;&#x2F;结点值</span><br><span class="line">   TreeNode* children[NUM];    &#x2F;&#x2F;指向孩子结点</span><br><span class="line">&gt;&#125;;</span><br></pre></td></tr></table></figure>
-<p>而 Trie 的结点是这样的(假设只包含’a’~’z’中的字符)：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;struct TrieNode &#123;</span><br><span class="line">   bool isEnd; &#x2F;&#x2F;该结点是否是一个串的结束</span><br><span class="line">   TrieNode* next[26]; &#x2F;&#x2F;字母映射表</span><br><span class="line">&gt;&#125;;</span><br></pre></td></tr></table></figure>
-<p>要想学会 Trie 就得先明白它的结点设计。我们可以看到TrieNode结点中并没有直接保存字符值的数据成员，那它是怎么保存字符的呢？</p>
-<p>这时字母映射表next 的妙用就体现了，TrieNode* next[26]中保存了对当前结点而言下一个可能出现的所有字符的链接，因此我们可以通过一个父结点来预知它所有子结点的值：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;for (int i &#x3D; 0; i &lt; 26; i++) &#123;</span><br><span class="line">   char ch &#x3D; &#39;a&#39; + i;</span><br><span class="line">   if (parentNode-&gt;next[i] &#x3D;&#x3D; NULL) &#123;</span><br><span class="line">       说明父结点的后一个字母不可为 ch</span><br><span class="line">   &#125; else &#123;</span><br><span class="line">       说明父结点的后一个字母可以是 ch</span><br><span class="line">   &#125;</span><br><span class="line">&gt;&#125;</span><br></pre></td></tr></table></figure>
-<p>我们来看个例子吧。</p>
-<p>想象以下，包含三个单词”sea”,”sells”,”she”的 Trie 会长啥样呢？</p>
-<p>它的真实情况是这样的：<br><img src="/2020/08/07/LC208-%E5%AE%9E%E7%8E%B0-Trie-%E5%89%8D%E7%BC%80%E6%A0%91/msedge_KhgwJJPR2O.png" alt="alt"></p>
-<p>Trie 中一般都含有大量的空链接，因此在绘制一棵单词查找树时一般会忽略空链接，同时为了方便理解我们可以画成这样：<br><img src="/2020/08/07/LC208-%E5%AE%9E%E7%8E%B0-Trie-%E5%89%8D%E7%BC%80%E6%A0%91/msedge_je610C5x5X.png" alt="alt"></p>
-<p>通过以上介绍和代码实现我们可以总结出 Trie 的几点性质：</p>
+<p>那么现在:</p>
+<script type="math/tex; mode=display">Gray[i+1]=Gray[i] + add1(rev(Gray[i]))</script><p>具体的流程用图说明：<br><img src="/2020/08/13/LC89-%E6%A0%BC%E9%9B%B7%E7%BC%96%E7%A0%81/msedge_nKkXbS8JqN.png" alt="alt"></p>
+<p>代码实现如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">grayCode</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> n == <span class="number">0</span>: <span class="keyword">return</span> [<span class="number">0</span>]</span><br><span class="line">        code = self.grayCode(n - <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> code + [(<span class="number">1</span> &lt;&lt; (n - <span class="number">1</span>) | i) <span class="keyword">for</span> i <span class="keyword">in</span> code[::<span class="number">-1</span>]]</span><br></pre></td></tr></table></figure><br>注意:</p>
 <ul>
-<li><p>Trie 的形状和单词的插入或删除顺序无关，也就是说对于任意给定的一组单词，Trie 的形状都是唯一的。</p>
-</li>
-<li><p>查找或插入一个长度为 L 的单词，访问 next 数组的次数最多为 L+1，和 Trie 中包含多少个单词无关。</p>
-</li>
-<li><p>Trie 的每个结点中都保留着一个字母表，这是很耗费空间的。如果 Trie 的高度为 n，字母表的大小为 m，最坏的情况是 Trie 中还不存在前缀相同的单词，那空间复杂度就为 O(m^n)。</p>
-</li>
-<li><p>最后，关于 Trie 的应用场景，希望你能记住 8 个字：一次建树，多次查询。(慢慢领悟叭~~)</p>
-</li>
+<li><code>for i in code[::-1]</code> 表示逆序</li>
+<li><code>(1 &lt;&lt; (n - 1) | i)</code> 表示最高位加<code>1</code></li>
 </ul>
-<p>作者：huwt<br>链接：<a href="https://leetcode-cn.com/problems/implement-trie-prefix-tree/solution/trie-tree-de-shi-xian-gua-he-chu-xue-zhe-by-huwt/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/implement-trie-prefix-tree/solution/trie-tree-de-shi-xian-gua-he-chu-xue-zhe-by-huwt/</a><br>来源：力扣（LeetCode）<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/12/LC292-Nim-%E6%B8%B8%E6%88%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="haitao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haitao's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/12/LC292-Nim-%E6%B8%B8%E6%88%8F/" class="post-title-link" itemprop="url">LC292-Nim 游戏</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-12 18:35:34 / Modified: 19:52:42" itemprop="dateCreated datePublished" datetime="2020-08-12T18:35:34+08:00">2020-08-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>你和你的朋友，两个人一起玩 Nim 游戏：桌子上有一堆石头，每次你们轮流拿掉 1 - 3 块石头。 拿掉最后一块石头的人就是获胜者。你作为先手。</p>
+<p>你们是聪明人，每一步都是最优解。 编写一个函数，来判断你是否可以在给定石头数量的情况下赢得游戏。</p>
+<p>示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: 4</span><br><span class="line">输出: false </span><br><span class="line">解释: 如果堆中有 4 块石头，那么你永远不会赢得比赛；</span><br><span class="line">     因为无论你拿走 1 块、2 块 还是 3 块石头，最后一块石头总是会被你的朋友拿走。</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/nim-game" target="_blank" rel="noopener">https://leetcode-cn.com/problems/nim-game</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><h3 id="1-动态规划"><a href="#1-动态规划" class="headerlink" title="1. 动态规划"></a>1. 动态规划</h3><p>首先规定状态</p>
+<script type="math/tex; mode=display">
+dp[i]:=当有i个石头且对面足够聪明的话十分会赢</script><p>如果现在有$n$个石头，我们可以拿走$i\in\{1,2,3\}$,则拿走之后我们是否会赢就变成了：</p>
+<script type="math/tex; mode=display">
+!dp[n-i]</script><p>所以状态转移方程：</p>
+<script type="math/tex; mode=display">
+dp[i]= !dp[n-1] || !dp[n-2] || !dp[n-3]</script><p>初始化：</p>
+<script type="math/tex; mode=display">
+dp[1]=dp[2]=dp[3]:=1</script><p>代码实现如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">canWinNim</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">4</span>: <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        dp = [<span class="literal">False</span>] * (n + <span class="number">1</span>)</span><br><span class="line">        dp[<span class="number">1</span>], dp[<span class="number">2</span>], dp[<span class="number">3</span>] = <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span></span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(<span class="number">4</span>, n + <span class="number">1</span>):</span><br><span class="line">            dp[index] = <span class="keyword">not</span> dp[index - <span class="number">1</span>] <span class="keyword">or</span> <span class="keyword">not</span> dp[index - <span class="number">2</span>] <span class="keyword">or</span> <span class="keyword">not</span> dp[index - <span class="number">3</span>]</span><br><span class="line">        <span class="keyword">return</span> dp[n]</span><br></pre></td></tr></table></figure></p>
+<p>内存爆炸了，2333</p>
+<h3 id="2-记忆化递归"><a href="#2-记忆化递归" class="headerlink" title="2. 记忆化递归"></a>2. 记忆化递归</h3><p>还是一样啊，我就不写了，都会爆内存</p>
+<h3 id="3-归纳"><a href="#3-归纳" class="headerlink" title="3. 归纳"></a>3. 归纳</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">canWinNim</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">return</span> n%<span class="number">4</span>!=<span class="number">0</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/12/LC344-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="haitao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haitao's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/12/LC344-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="post-title-link" itemprop="url">LC344-反转字符串</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-12 18:29:44 / Modified: 18:34:40" itemprop="dateCreated datePublished" datetime="2020-08-12T18:29:44+08:00">2020-08-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 char[] 的形式给出。</p>
+<p>不要给另外的数组分配额外的空间，你必须原地修改输入数组、使用 O(1) 的额外空间解决这一问题。</p>
+<p>你可以假设数组中的所有字符都是 ASCII 码表中的可打印字符。</p>
+<p>示例 1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：[&quot;h&quot;,&quot;e&quot;,&quot;l&quot;,&quot;l&quot;,&quot;o&quot;]</span><br><span class="line">输出：[&quot;o&quot;,&quot;l&quot;,&quot;l&quot;,&quot;e&quot;,&quot;h&quot;]</span><br></pre></td></tr></table></figure><br>示例 2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：[&quot;H&quot;,&quot;a&quot;,&quot;n&quot;,&quot;n&quot;,&quot;a&quot;,&quot;h&quot;]</span><br><span class="line">输出：[&quot;h&quot;,&quot;a&quot;,&quot;n&quot;,&quot;n&quot;,&quot;a&quot;,&quot;H&quot;]</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/reverse-string" target="_blank" rel="noopener">https://leetcode-cn.com/problems/reverse-string</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="代码与思路"><a href="#代码与思路" class="headerlink" title="代码与思路"></a>代码与思路</h1><h3 id="1-双指针"><a href="#1-双指针" class="headerlink" title="1. 双指针"></a>1. 双指针</h3><p>这个应该是最为简单的双指针问题了，下面给出代码实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reverseString</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: List[str]</span></span><br><span class="line"><span class="string">        :rtype: None Do not return anything, modify s in-place instead.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        l,r=<span class="number">0</span>,s.__len__()<span class="number">-1</span></span><br><span class="line">        <span class="keyword">while</span> l&lt;r:</span><br><span class="line">            tmp = s[r]</span><br><span class="line">            s[r]=s[l]</span><br><span class="line">            s[l]=tmp</span><br><span class="line">            l+=<span class="number">1</span></span><br><span class="line">            r-=<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="2-直接调用库函数"><a href="#2-直接调用库函数" class="headerlink" title="2. 直接调用库函数"></a>2. 直接调用库函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reverseString</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: List[str]</span></span><br><span class="line"><span class="string">        :rtype: None Do not return anything, modify s in-place instead.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        s.reverse()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/11/LC557-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E5%8D%95%E8%AF%8D-III/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="haitao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haitao's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/11/LC557-%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E5%8D%95%E8%AF%8D-III/" class="post-title-link" itemprop="url">LC557-反转字符串中的单词 III</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-11 17:38:19 / Modified: 17:47:24" itemprop="dateCreated datePublished" datetime="2020-08-11T17:38:19+08:00">2020-08-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">示例 1:</span><br><span class="line">输入: &quot;Let&#39;s take LeetCode contest&quot;</span><br><span class="line">输出: &quot;s&#39;teL ekat edoCteeL tsetnoc&quot; </span><br><span class="line">注意：在字符串中，每个单词由单个空格分隔，并且字符串中不会有任何额外的空格。</span><br></pre></td></tr></table></figure>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/reverse-words-in-a-string-iii" target="_blank" rel="noopener">https://leetcode-cn.com/problems/reverse-words-in-a-string-iii</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><p>主要使用python中的<code>string.split(&quot; &quot;)</code>方法和排序以及字符串的组合方法<code>.join()</code><br>代码实现如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reverseWords</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: str</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">" "</span>.join([item[::<span class="number">-1</span>] <span class="keyword">for</span> item <span class="keyword">in</span> s.split(<span class="string">" "</span>)])</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>“东京 爱情 故事” 2333</p>
 </blockquote>
-<p>接下来我们一起来实现对 Trie 的一些常用操作方法。<br>首先来实现,首先来实现TireNode<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TrieNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Initialize TrieNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.isEnd = <span class="literal">False</span></span><br><span class="line">        self.next = [<span class="literal">None</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">26</span>)]</span><br></pre></td></tr></table></figure></p>
-<p>好的，下面给出所有的代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Trie</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">TrieNode</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">            <span class="string">"""</span></span><br><span class="line"><span class="string">            Initialize TrieNode</span></span><br><span class="line"><span class="string">            """</span></span><br><span class="line">            self.isWord = <span class="literal">False</span></span><br><span class="line">            self.next = [<span class="literal">None</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">26</span>)]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Initialize your data structure here.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.root = self.TrieNode()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">insert</span><span class="params">(self, word: str)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Inserts a word into the trie.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        curr_node = self.root</span><br><span class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> word:</span><br><span class="line">            <span class="keyword">if</span> curr_node.next[ord(char) - ord(<span class="string">'a'</span>)] <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                curr_node.next[ord(char) - ord(<span class="string">'a'</span>)] = self.TrieNode()</span><br><span class="line">            curr_node = curr_node.next[ord(char) - ord(<span class="string">'a'</span>)]</span><br><span class="line">        curr_node.isWord = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(self, word: str)</span> -&gt; bool:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Returns if the word is in the trie.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        curr_node = self.root</span><br><span class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> word:</span><br><span class="line">            curr_node = curr_node.next[ord(char) - ord(<span class="string">'a'</span>)]</span><br><span class="line">            <span class="keyword">if</span> curr_node <span class="keyword">is</span> <span class="literal">None</span>: <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> curr_node.isWord</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">startsWith</span><span class="params">(self, prefix: str)</span> -&gt; bool:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Returns if there is any word in the trie that starts with the given prefix.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        curr_node = self.root</span><br><span class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> prefix:</span><br><span class="line">            curr_node = curr_node.next[ord(char) - ord(<span class="string">'a'</span>)]</span><br><span class="line">            <span class="keyword">if</span> curr_node <span class="keyword">is</span> <span class="literal">None</span>: <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure></p>
-<p>顺利通过~</p>
 
       
     </div>
@@ -469,7 +481,7 @@ F[i, v] = \max\{F[i − 1, v], F[i − 1, v − C_i] + W_i\}</script><p>状态�
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/07/LC146-LRU%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/11/LC1480-%E4%B8%80%E7%BB%B4%E6%95%B0%E7%BB%84%E7%9A%84%E5%8A%A8%E6%80%81%E5%92%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -483,7 +495,7 @@ F[i, v] = \max\{F[i − 1, v], F[i − 1, v − C_i] + W_i\}</script><p>状态�
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/08/07/LC146-LRU%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">LC146-LRU缓存机制</a>
+            <a href="/2020/08/11/LC1480-%E4%B8%80%E7%BB%B4%E6%95%B0%E7%BB%84%E7%9A%84%E5%8A%A8%E6%80%81%E5%92%8C/" class="post-title-link" itemprop="url">LC1480-一维数组的动态和</a>
         </h2>
 
         <div class="post-meta">
@@ -494,7 +506,7 @@ F[i, v] = \max\{F[i − 1, v], F[i − 1, v − C_i] + W_i\}</script><p>状态�
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-08-07 11:48:17 / Modified: 12:10:12" itemprop="dateCreated datePublished" datetime="2020-08-07T11:48:17+08:00">2020-08-07</time>
+              <time title="Created: 2020-08-11 17:02:19 / Modified: 17:04:56" itemprop="dateCreated datePublished" datetime="2020-08-11T17:02:19+08:00">2020-08-11</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -517,12 +529,109 @@ F[i, v] = \max\{F[i − 1, v], F[i − 1, v − C_i] + W_i\}</script><p>状态�
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。</p>
-<p>获取数据 get(key) - 如果关键字 (key) 存在于缓存中，则获取关键字的值（总是正数），否则返回 -1。<br>写入数据 put(key, value) - 如果关键字已经存在，则变更其数据值；如果关键字不存在，则插入该组「关键字/值」。当缓存容量达到上限时，它应该在写入新数据之前删除最久未使用的数据值，从而为新的数据值留出空间。</p>
-<p>进阶:</p>
-<p>你是否可以在 O(1) 时间复杂度内完成这两种操作？</p>
-<p>示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">LRUCache cache &#x3D; new LRUCache( 2 &#x2F;* 缓存容量 *&#x2F; );</span><br><span class="line"></span><br><span class="line">cache.put(1, 1);</span><br><span class="line">cache.put(2, 2);</span><br><span class="line">cache.get(1);       &#x2F;&#x2F; 返回  1</span><br><span class="line">cache.put(3, 3);    &#x2F;&#x2F; 该操作会使得关键字 2 作废</span><br><span class="line">cache.get(2);       &#x2F;&#x2F; 返回 -1 (未找到)</span><br><span class="line">cache.put(4, 4);    &#x2F;&#x2F; 该操作会使得关键字 1 作废</span><br><span class="line">cache.get(1);       &#x2F;&#x2F; 返回 -1 (未找到)</span><br><span class="line">cache.get(3);       &#x2F;&#x2F; 返回  3</span><br><span class="line">cache.get(4);       &#x2F;&#x2F; 返回  4</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/lru-cache" target="_blank" rel="noopener">https://leetcode-cn.com/problems/lru-cache</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="代码与思路"><a href="#代码与思路" class="headerlink" title="代码与思路"></a>代码与思路</h1><p>直接采用python自带的数据结构OrderDict<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span><span class="params">(collections.OrderedDict)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, capacity: int)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.capacity = capacity</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key: int)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> self:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">        self.move_to_end(key)</span><br><span class="line">        <span class="keyword">return</span> self[key]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(self, key: int, value: int)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">in</span> self:</span><br><span class="line">            self.move_to_end(key)</span><br><span class="line">        self[key] = value</span><br><span class="line">        <span class="keyword">if</span> len(self) &gt; self.capacity:</span><br><span class="line">            self.popitem(last=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure></p>
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个数组 nums 。数组「动态和」的计算公式为：runningSum[i] = sum(nums[0]…nums[i]) 。</p>
+<p>请返回 nums 的动态和。</p>
+<p><code>示例 1：</code><br>输入：nums = [1,2,3,4]<br>输出：[1,3,6,10]<br>解释：动态和计算过程为 [1, 1+2, 1+2+3, 1+2+3+4] 。</p>
+<p><code>示例 2：</code><br>输入：nums = [1,1,1,1,1]<br>输出：[1,2,3,4,5]<br>解释：动态和计算过程为 [1, 1+1, 1+1+1, 1+1+1+1, 1+1+1+1+1] 。</p>
+<p><code>示例 3：</code><br>输入：nums = [3,1,2,10,1]<br>输出：[3,4,6,16,17]</p>
+<p>提示：</p>
+<ul>
+<li>1 &lt;= nums.length &lt;= 1000</li>
+<li>-10^6 &lt;= nums[i] &lt;= 10^6</li>
+</ul>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/running-sum-of-1d-array" target="_blank" rel="noopener">https://leetcode-cn.com/problems/running-sum-of-1d-array</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="代码与思路"><a href="#代码与思路" class="headerlink" title="代码与思路"></a>代码与思路</h1><p>动态和和前缀和十分的相似，代码实现比较简单：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">runningSum</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        res = []</span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(nums.__len__()):</span><br><span class="line">            res.append(nums[index] <span class="keyword">if</span> index==<span class="number">0</span> <span class="keyword">else</span> nums[index]+res[index<span class="number">-1</span>])</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/11/LC560-%E5%92%8C%E4%B8%BAK%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="haitao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haitao's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/11/LC560-%E5%92%8C%E4%B8%BAK%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84/" class="post-title-link" itemprop="url">LC560-和为K的子数组</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-11 11:23:09 / Modified: 12:27:18" itemprop="dateCreated datePublished" datetime="2020-08-11T11:23:09+08:00">2020-08-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。</p>
+<p>示例 1 :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入:nums &#x3D; [1,1,1], k &#x3D; 2</span><br><span class="line">输出: 2 , [1,1] 与 [1,1] 为两种不同的情况。</span><br></pre></td></tr></table></figure></p>
+<p>说明 :</p>
+<ul>
+<li>数组的长度为 [1, 20,000]。</li>
+<li>数组中元素的范围是 [-1000, 1000] ，且整数 k 的范围是 [-1e7, 1e7]。</li>
+</ul>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/subarray-sum-equals-k" target="_blank" rel="noopener">https://leetcode-cn.com/problems/subarray-sum-equals-k</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><p>首先给出前缀和的定义：</p>
+<script type="math/tex; mode=display">
+pre[i]:=\sum_{m=0}^{m=i}nums[m]</script><p>我们不难发现如果$\sum_{m=i}^{m=j}nums[m]=k$,也就是说子数组$nums[i:j][注意是闭区间]$的和为$k$，则我们一定有</p>
+<script type="math/tex; mode=display">
+pre[j]-pre[i-1]=k</script><p>规定$pre[-1]:=0$</p>
+<p>对于最后一个元素为$nums[j]$的所有子序列，我们要找到满足如下约束条件的$i$的个数</p>
+<script type="math/tex; mode=display">
+pre[i-1]=pre[j]-k</script><p>下面举个栗子,对于<code>nums=[1,0,1,1],k=2</code>,不难知道<code>pre=[1,1,2,3]</code><br>构造<code>pre_count={3:1,2:1,1:2,0:1}</code></p>
+<ul>
+<li>尾元素为<code>nums[3]</code>要求子序列个数<code>pre_count[pre[3]-2]=pre.count[1]=2</code>且<code>pre_count[pre[3]]--</code></li>
+<li>尾元素为<code>nums[2]</code>要求子序列个数<code>pre_count[pre[2]-2]=pre.count[0]=1</code>且<code>pre_count[pre[2]]--</code></li>
+<li>尾元素为<code>nums[1]</code>要求子序列个数<code>pre_count[pre[1]-2]=pre.count[-1]=0</code>且<code>pre_count[pre[1]]--</code></li>
+<li>尾元素为<code>nums[0]</code>要求子序列个数<code>pre_count[pre[0]-2]=pre.count[-1]=0</code>且<code>pre_count[pre[0]]--</code></li>
+</ul>
+<p>代码实现如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.pre = []</span><br><span class="line">        self.pre_count = <span class="literal">None</span></span><br><span class="line">        self.res = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">subarraySum</span><span class="params">(self, nums, k)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type k: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(nums.__len__()):</span><br><span class="line">            self.pre.append(nums[index] <span class="keyword">if</span> index == <span class="number">0</span> <span class="keyword">else</span> nums[index] + self.pre[index - <span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> k == <span class="number">0</span> <span class="keyword">and</span> nums.__len__() == <span class="number">1</span>: <span class="keyword">return</span> self.pre.count(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        self.pre_count = Counter(self.pre + [<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(nums.__len__() - <span class="number">1</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">            self.pre_count[self.pre[j]] -= <span class="number">1</span></span><br><span class="line">            self.res += self.pre_count[self.pre[j] - k] <span class="keyword">if</span> self.pre_count.get(self.pre[j] - k) <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> self.res</span><br></pre></td></tr></table></figure></p>
+<p>我写的都是些什么垃圾…<br><img src="/2020/08/11/LC560-%E5%92%8C%E4%B8%BAK%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84/msedge_0DDdB8oZ5j.png" alt="alt"></p>
 
       
     </div>
@@ -542,7 +651,7 @@ F[i, v] = \max\{F[i − 1, v], F[i − 1, v − C_i] + W_i\}</script><p>状态�
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/07/LC240-%E6%90%9C%E7%B4%A2%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5-II/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/11/LC438-%E6%89%BE%E5%88%B0%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%89%80%E6%9C%89%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -556,7 +665,7 @@ F[i, v] = \max\{F[i − 1, v], F[i − 1, v − C_i] + W_i\}</script><p>状态�
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/08/07/LC240-%E6%90%9C%E7%B4%A2%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5-II/" class="post-title-link" itemprop="url">LC240-搜索二维矩阵 II</a>
+            <a href="/2020/08/11/LC438-%E6%89%BE%E5%88%B0%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%89%80%E6%9C%89%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D/" class="post-title-link" itemprop="url">LC438-找到字符串中所有字母异位词</a>
         </h2>
 
         <div class="post-meta">
@@ -565,16 +674,10 @@ F[i, v] = \max\{F[i − 1, v], F[i − 1, v − C_i] + W_i\}</script><p>状态�
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-08-07 08:27:59" itemprop="dateCreated datePublished" datetime="2020-08-07T08:27:59+08:00">2020-08-07</time>
+              <time title="Created: 2020-08-11 09:20:34 / Modified: 09:56:38" itemprop="dateCreated datePublished" datetime="2020-08-11T09:20:34+08:00">2020-08-11</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-08 09:36:24" itemprop="dateModified" datetime="2020-08-08T09:36:24+08:00">2020-08-08</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -596,53 +699,32 @@ F[i, v] = \max\{F[i − 1, v], F[i − 1, v − C_i] + W_i\}</script><p>状态�
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：</p>
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个字符串 s 和一个非空字符串 p，找到 s 中所有是 p 的字母异位词的子串，返回这些子串的起始索引。</p>
+<p>字符串只包含小写英文字母，并且字符串 s 和 p 的长度都不超过 20100。</p>
+<p>说明：</p>
 <ul>
-<li>每行的元素从左到右升序排列。</li>
-<li>每列的元素从上到下升序排列。</li>
+<li>字母异位词指字母相同，但排列不同的字符串。</li>
+<li>不考虑答案输出的顺序。</li>
 </ul>
-<p>示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">现有矩阵 matrix 如下：</span><br><span class="line">[</span><br><span class="line">  [1,   4,  7, 11, 15],</span><br><span class="line">  [2,   5,  8, 12, 19],</span><br><span class="line">  [3,   6,  9, 16, 22],</span><br><span class="line">  [10, 13, 14, 17, 24],</span><br><span class="line">  [18, 21, 23, 26, 30]</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">示例 1:</span><br><span class="line"></span><br><span class="line">输入:</span><br><span class="line">s: &quot;cbaebabacd&quot; p: &quot;abc&quot;</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">[0, 6]</span><br></pre></td></tr></table></figure>
+<p>解释:</p>
 <ul>
-<li>给定 target = 5，返回 true。</li>
-<li>给定 target = 20，返回 false。</li>
+<li>起始索引等于 0 的子串是 “cba”, 它是 “abc” 的字母异位词。</li>
+<li>起始索引等于 6 的子串是 “bac”, 它是 “abc” 的字母异位词。</li>
 </ul>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/search-a-2d-matrix-ii" target="_blank" rel="noopener">https://leetcode-cn.com/problems/search-a-2d-matrix-ii</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><h3 id="暴力搜索"><a href="#暴力搜索" class="headerlink" title="暴力搜索"></a>暴力搜索</h3><p>最简单的想法就是暴力搜索了，这样搜索的话算法复杂度为$O(mn)$,首先测试一下可不可以过，然后再做优化。</p>
-<p>代码实现如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">searchMatrix</span><span class="params">(self, matrix, target)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type matrix: List[List[int]]</span></span><br><span class="line"><span class="string">        :type target: int</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> matrix <span class="keyword">and</span> matrix[<span class="number">0</span>]:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(matrix.__len__()):</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> range(matrix[<span class="number">0</span>].__len__()):</span><br><span class="line">                    <span class="keyword">if</span> matrix[i][j] == target: <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure><br>暴力搜索显然是可以通过的，但是成绩比较差，我们现在采用不同的方法~</p>
-<h3 id="巧妙的一个方法"><a href="#巧妙的一个方法" class="headerlink" title="巧妙的一个方法"></a>巧妙的一个方法</h3><p>首先，如果我们采用二分或者分治的话可能会十分的啰嗦，下面我看别人的算法，自己写一个吧，这个方法实在很妙,再给出算法之前，我们先考虑一下这个问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">示例 2:</span><br><span class="line">输入:</span><br><span class="line">s: &quot;abab&quot; p: &quot;ab&quot;</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">[0, 1, 2]</span><br></pre></td></tr></table></figure>
+<p>解释:</p>
+<ul>
+<li>起始索引等于 0 的子串是 “ab”, 它是 “ab” 的字母异位词。</li>
+<li>起始索引等于 1 的子串是 “ba”, 它是 “ab” 的字母异位词。</li>
+<li>起始索引等于 2 的子串是 “ab”, 它是 “ab” 的字母异位词。</li>
+</ul>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/find-all-anagrams-in-a-string" target="_blank" rel="noopener">https://leetcode-cn.com/problems/find-all-anagrams-in-a-string</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><h4 id="暴力求解"><a href="#暴力求解" class="headerlink" title="暴力求解"></a>暴力求解</h4><p>暴力法十分的简单，只要我们熟悉python中的<code>collections.Counter</code>就好了，代码实现如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findAnagrams</span><span class="params">(self, s, p)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :type p: str</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        res, s_len, p_len, p_Counters = [], s.__len__(), p.__len__(), Counter(p)</span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(s_len - p_len + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> Counter(s[index:index + p_len]) == p_Counters: res.append(index)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure></p>
+<h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h3><p>这个题目与<a href="https://leetcode-cn.com/problems/minimum-window-substring" target="_blank" rel="noopener">LC76-最小覆盖子串</a>十分的类似，基本上就是一类题目，我们采用同样的思路进行求解。</p>
+<p>但是稍稍不同，这个题目更加的简单</p>
 <script type="math/tex; mode=display">
-给定一个元素matrix[i][j]其上下左右的元素与matrix[i][j]有何关系？</script><p>我们不难发现</p>
-<ul>
-<li>$matrix[i][j]&gt;matrix[i][j-1]$</li>
-<li>$matrix[i][j]&gt;matrix[i-1][j]$</li>
-<li>$matrix[i][j]&lt;matrix[i][j+1]$</li>
-<li>$matrix[i][j]&lt;matrix[i][j+1]$</li>
-</ul>
-<p>如果我们随机初始化一个位置作为初始的起点然后搜索，我们会遇到一下两个问题</p>
-<ul>
-<li>if $target&gt;matrix[i][j]$, 我们现在有两条路可以走，分别是$i++$ or $j++$</li>
-<li>if $target&lt;matrix[i][j]$, 我们现在有两条路可以走，分别是$i—$ or $j—$</li>
-</ul>
-<p>那么如何解决这个问题呢？</p>
-<font color="red">
-$$
-以matrix[-1][0]作为搜索的起始位置
-$$
-</font>
-
-<ul>
-<li><p>if $target &gt; matrix[i][j]$, 我们现在有两条路可以走，分别是 $j++$</p>
-</li>
-<li><p>if $target &lt; matrix[i][j]$, 我们现在有两条路可以走，分别是 $i—$</p>
-</li>
-</ul>
-<p>这个算法的性能是十分高的，它有效的排除了不可能的状态空间~</p>
-<ul>
-<li>时间复杂度$O(m+n)$</li>
-<li>空间复杂度$O(1)$</li>
-</ul>
-<p>一下给出代码实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">searchMatrix</span><span class="params">(self, matrix, target)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type matrix: List[List[int]]</span></span><br><span class="line"><span class="string">        :type target: int</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> matrix <span class="keyword">and</span> matrix[<span class="number">0</span>]:</span><br><span class="line">            row_max, col_max = matrix.__len__(), matrix[<span class="number">0</span>].__len__()</span><br><span class="line">            row, col = row_max - <span class="number">1</span>, <span class="number">0</span></span><br><span class="line">            <span class="keyword">while</span> <span class="number">0</span> &lt;= row &lt;= row_max - <span class="number">1</span> <span class="keyword">and</span> <span class="number">0</span> &lt;= col &lt;= col_max - <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">if</span> matrix[row][col] == target:</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">                <span class="keyword">elif</span> matrix[row][col] &lt; target:</span><br><span class="line">                    col += <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    row -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure></p>
-<p>速度将近提升了8倍，( •̀ ω •́ )y</p>
+这个窗口是固定长度的，LC76是不定长的</script><p>代码实现如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.need = <span class="literal">None</span></span><br><span class="line">        self.window = <span class="literal">None</span></span><br><span class="line">        self.res = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__isWindowValid</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.window == self.need</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findAnagrams</span><span class="params">(self, s, p)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :type p: str</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        s_len, p_len = s.__len__(), p.__len__()</span><br><span class="line">        <span class="keyword">if</span> s_len &lt; p_len: <span class="keyword">return</span> self.res</span><br><span class="line"></span><br><span class="line">        union = list(set(s + p))</span><br><span class="line">        self.need = &#123;_: <span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> union&#125;</span><br><span class="line">        self.window = &#123;_: <span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> union&#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(p_len):</span><br><span class="line">            self.need[p[i]] += <span class="number">1</span></span><br><span class="line">            self.window[s[i]] += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.__isWindowValid(): self.res.append(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> begin <span class="keyword">in</span> range(<span class="number">1</span>, s_len - p_len + <span class="number">1</span>):</span><br><span class="line">            end = begin + p_len</span><br><span class="line">            self.window[s[begin - <span class="number">1</span>]] -= <span class="number">1</span></span><br><span class="line">            self.window[s[end - <span class="number">1</span>]] += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> self.__isWindowValid(): self.res.append(begin)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> self.res</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -662,7 +744,7 @@ $$
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/04/LC416-%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86#####################################################/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/10/LC210-%E8%AF%BE%E7%A8%8B%E8%A1%A8-II/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -676,7 +758,7 @@ $$
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/08/04/LC416-%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86#####################################################/" class="post-title-link" itemprop="url">LC416-分割等和子集</a>
+            <a href="/2020/08/10/LC210-%E8%AF%BE%E7%A8%8B%E8%A1%A8-II/" class="post-title-link" itemprop="url">LC210-课程表 II</a>
         </h2>
 
         <div class="post-meta">
@@ -685,16 +767,10 @@ $$
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-08-04 09:22:41" itemprop="dateCreated datePublished" datetime="2020-08-04T09:22:41+08:00">2020-08-04</time>
+              <time title="Created: 2020-08-10 11:10:47 / Modified: 11:19:11" itemprop="dateCreated datePublished" datetime="2020-08-10T11:10:47+08:00">2020-08-10</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-09 09:53:43" itemprop="dateModified" datetime="2020-08-09T09:53:43+08:00">2020-08-09</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -716,351 +792,215 @@ $$
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个只包含正整数的非空数组。是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p>
-<p>注意:</p>
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>现在你总共有 n 门课需要选，记为 0 到 n-1。</p>
+<p>在选修某些课程之前需要一些先修课程。 例如，想要学习课程 0 ，你需要先完成课程 1 ，我们用一个匹配来表示他们: [0,1]</p>
+<p>给定课程总量以及它们的先决条件，返回你为了学完所有课程所安排的学习顺序。</p>
+<p>可能会有多个正确的顺序，你只要返回一种就可以了。如果不可能完成所有课程，返回一个空数组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">示例 1:</span><br><span class="line">输入: 2, [[1,0]] </span><br><span class="line">输出: [0,1]</span><br><span class="line">解释: 总共有 2 门课程。要学习课程 1，你需要先完成课程 0。因此，正确的课程顺序为 [0,1] 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">示例 2:</span><br><span class="line">输入: 4, [[1,0],[2,0],[3,1],[3,2]]</span><br><span class="line">输出: [0,1,2,3] or [0,2,1,3]</span><br><span class="line">解释: 总共有 4 门课程。要学习课程 3，你应该先完成课程 1 和课程 2。并且课程 1 和课程 2 都应该排在课程 0 之后。</span><br><span class="line">     因此，一个正确的课程顺序是 [0,1,2,3] 。另一个正确的排序是 [0,2,1,3] 。</span><br></pre></td></tr></table></figure>
+<p>说明:</p>
 <ul>
-<li>每个数组中的元素不会超过 100</li>
-<li>数组的大小不会超过 200</li>
+<li>输入的先决条件是由边缘列表表示的图形，而不是邻接矩阵。详情请参见图的表示法。</li>
+<li>你可以假定输入的先决条件中没有重复的边。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">示例 1:</span><br><span class="line">- 输入: [1, 5, 11, 5]</span><br><span class="line">输出: true</span><br><span class="line">解释: 数组可以分割成 [1, 5, 5] 和 [11].</span><br><span class="line"></span><br><span class="line">示例 2:</span><br><span class="line">- 输入: [1, 2, 3, 5]</span><br><span class="line">输出: false</span><br><span class="line">解释: 数组不能分割成两个元素和相等的子集.</span><br></pre></td></tr></table></figure>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/partition-equal-subset-sum" target="_blank" rel="noopener">https://leetcode-cn.com/problems/partition-equal-subset-sum</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="代码与思路"><a href="#代码与思路" class="headerlink" title="代码与思路"></a>代码与思路</h1><h3 id="1-深度优先搜索"><a href="#1-深度优先搜索" class="headerlink" title="1.深度优先搜索"></a>1.深度优先搜索</h3><p>这个方法是我想的一个方法，主要有两个list，定义分别如下</p>
-<script type="math/tex; mode=display">
-bigger:=被选取集合初始化为输入数组nums,注意首先要对nums进行排序</script><script type="math/tex; mode=display">
-smaller:= 选取后存放的集合</script><p>算法如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__dfs</span><span class="params">(smaller,bigger)</span></span></span><br><span class="line">    if sum(smaller) == sum(bigger): return true</span><br><span class="line">    <span class="keyword">elif</span> sum(smaller) &gt; sum(bigger): <span class="keyword">return</span> false</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> bigger:</span><br><span class="line">            <span class="keyword">if</span> __dfs(smaller.append(item),bigger.<span class="keyword">del</span>(item)):</span><br><span class="line">                <span class="keyword">return</span> true</span><br><span class="line">        <span class="keyword">return</span> false</span><br></pre></td></tr></table></figure></p>
-<p>下面给出代码实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__dfs</span><span class="params">(self, smaller, bigger)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        :param smaller:List[int]</span></span><br><span class="line"><span class="string">        :param bigger: List[int]</span></span><br><span class="line"><span class="string">        :return: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> sum(smaller) &gt; sum(bigger):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">elif</span> sum(smaller) == sum(bigger):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> bigger:</span><br><span class="line">                new_smaller, new_bigger = smaller[:], bigger[:]</span><br><span class="line">                new_smaller.append(item)</span><br><span class="line">                new_bigger.remove(item)</span><br><span class="line">                <span class="keyword">if</span> self.__dfs(new_smaller, new_bigger): <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">canPartition</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        nums.sort()</span><br><span class="line">        <span class="keyword">return</span> self.__dfs([], nums)</span><br></pre></td></tr></table></figure><br>TLE了，难受现在应该做减枝了，难受~</p>
-<h3 id="2-动态规划-背包问题"><a href="#2-动态规划-背包问题" class="headerlink" title="2.动态规划/背包问题"></a>2.动态规划/背包问题</h3><p>这个题目实际上我们可以转换为：</p>
-<font color="red">
-$$是否可以从这个数组中挑选出一些正整数，使得这些数的和等于整个数组元素的和的一半$$
-</font>
+<p>提示:</p>
+<ul>
+<li>这个问题相当于查找一个循环是否存在于有向图中。如果存在循环，则不存在拓扑排序，因此不可能选取所有课程进行学习。</li>
+<li>通过 DFS 进行拓扑排序 - 一个关于Coursera的精彩视频教程（21分钟），介绍拓扑排序的基本概念。</li>
+<li>拓扑排序也可以通过 BFS 完成。</li>
+</ul>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/course-schedule-ii" target="_blank" rel="noopener">https://leetcode-cn.com/problems/course-schedule-ii</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="代码与思考"><a href="#代码与思考" class="headerlink" title="代码与思考"></a>代码与思考</h1><p>这个题目与<a href="https://leetcode-cn.com/problems/course-schedule" target="_blank" rel="noopener">LC207-课程表</a>几乎没有差别，所以看会LC207这个题目就会了。</p>
+<p>代码实现如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># e.g. edges[0]=[1,2,3,4] 表示：0为1,2,3,4的先修课程</span></span><br><span class="line">        self.edges = &#123;&#125;</span><br><span class="line">        <span class="comment"># e.g. in_degree[2]=18 表示：完成课程2需要先完成18门课程</span></span><br><span class="line">        self.in_degree = []</span><br><span class="line">        <span class="comment"># 作为一个flag 表示已经完成此门课程</span></span><br><span class="line">        self.MAXINT = <span class="number">2</span> ** <span class="number">31</span> - <span class="number">1</span></span><br><span class="line">        <span class="comment"># 储存答案</span></span><br><span class="line">        self.res = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__get_can_study</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :return:List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        res = []</span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(self.in_degree.__len__()):</span><br><span class="line">            <span class="keyword">if</span> self.in_degree[index] == <span class="number">0</span>:</span><br><span class="line">                res.append(index)</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findOrder</span><span class="params">(self, numCourses, prerequisites)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type numCourses: int</span></span><br><span class="line"><span class="string">        :type prerequisites: List[List[int]]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.in_degree = [<span class="number">0</span>] * numCourses</span><br><span class="line">        self.edges = &#123;i: [] <span class="keyword">for</span> i <span class="keyword">in</span> range(numCourses)&#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> edge <span class="keyword">in</span> prerequisites:</span><br><span class="line">            self.in_degree[edge[<span class="number">0</span>]] += <span class="number">1</span></span><br><span class="line">            self.edges[edge[<span class="number">1</span>]].append(edge[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            can_study = self.__get_can_study()</span><br><span class="line">            <span class="keyword">if</span> can_study:</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> can_study:</span><br><span class="line">                    self.in_degree[i] = self.MAXINT</span><br><span class="line">                    self.res.append(i)</span><br><span class="line">                    <span class="keyword">for</span> j <span class="keyword">in</span> self.edges[i]:</span><br><span class="line">                        self.in_degree[j] -= <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> self.res <span class="keyword">if</span> min(self.in_degree) == self.MAXINT <span class="keyword">else</span> []</span><br></pre></td></tr></table></figure></p>
 
-<p>这个题目与正规的01背包问题有所不同，差异如下：</p>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/10/LC207-%E8%AF%BE%E7%A8%8B%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="haitao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haitao's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/10/LC207-%E8%AF%BE%E7%A8%8B%E8%A1%A8/" class="post-title-link" itemprop="url">LC207-课程表</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-10 11:01:17 / Modified: 11:09:40" itemprop="dateCreated datePublished" datetime="2020-08-10T11:01:17+08:00">2020-08-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>你这个学期必须选修 <code>numCourse</code> 门课程，记为 <code>0</code> 到 <code>numCourse-1</code> 。</p>
+<p>在选修某些课程之前需要一些先修课程。 例如，想要学习课程 <code>0</code> ，你需要先完成课程 <code>1</code> ，我们用一个匹配来表示他们：<code>[0,1]</code></p>
+<p>给定课程总量以及它们的先决条件，请你判断是否可能完成所有课程的学习？</p>
+<p>示例 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">输入: 2, [[1,0]] </span><br><span class="line">输出: true</span><br><span class="line">解释: 总共有 2 门课程。学习课程 1 之前，你需要完成课程 0。所以这是可能的。</span><br><span class="line">示例 2:</span><br><span class="line"></span><br><span class="line">输入: 2, [[1,0],[0,1]]</span><br><span class="line">输出: false</span><br><span class="line">解释: 总共有 2 门课程。学习课程 1 之前，你需要先完成​课程 0；并且学习课程 0 之前，你还应先完成课程 1。这是不可能的。</span><br></pre></td></tr></table></figure></p>
+<p>提示：</p>
 <ul>
-<li><p>01背包问题选取的物品的容积总量不能超过规定的总量，<br>  本题选取的数字之和需要等于规定的和的一半</p>
-</li>
-<li><p>01背包问题要最大化收益，<br>  本题则没有收益，只用判断给定容积是否恰好装满</p>
-</li>
+<li>输入的先决条件是由<code>边缘列表</code>表示的图形，而不是邻接矩阵。</li>
+<li>你可以假定输入的先决条件中没有重复的边。</li>
+<li><code>1 &lt;= numCourses &lt;= 10^5</code></li>
 </ul>
-<p>鉴于以上的不同，我们将状态定义如下</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/course-schedule" target="_blank" rel="noopener">https://leetcode-cn.com/problems/course-schedule</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="代码与思考"><a href="#代码与思考" class="headerlink" title="代码与思考"></a>代码与思考</h1><p>如果我们将课程作为<code>Node</code>,先修后修作为<code>edges</code>,然后我们就构建了一个有向图，这个题目就变成了</p>
 <script type="math/tex; mode=display">
-dp[i][j]:=sum[0:i]内挑选一些正整数，每个数只能用一次，是否等于j</script><p>状态转移方程</p>
-<script type="math/tex; mode=display">dp[i][j]=
+如何判断一个有向图为有环有向图？</script><p>我们可以采用两种方法</p>
+<ul>
+<li>统计入度+FIFO/QUEUE+BFS</li>
+<li>统计出度+FILO/STACK+DFS</li>
+</ul>
+<p>我们采取的方法是第一种，具体的教程,点击<a href="https://leetcode-cn.com/problems/course-schedule/solution/ke-cheng-biao-by-leetcode-solution/" target="_blank" rel="noopener">这里</a></p>
+<p>具体的代码实现如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># e.g. edges[0]=[1,2,3,4] 表示：0为1,2,3,4的先修课程</span></span><br><span class="line">        self.edges = &#123;&#125;</span><br><span class="line">        <span class="comment"># e.g. in_degree[2]=18 表示：完成课程2需要先完成18门课程</span></span><br><span class="line">        self.in_degree = []</span><br><span class="line">        <span class="comment"># 作为一个flag 表示已经完成此门课程</span></span><br><span class="line">        self.MAXINT = <span class="number">2</span> ** <span class="number">31</span> - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__get_can_study</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :return:List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        res = []</span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(self.in_degree.__len__()):</span><br><span class="line">            <span class="keyword">if</span> self.in_degree[index] == <span class="number">0</span>:</span><br><span class="line">                res.append(index)</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">canFinish</span><span class="params">(self, numCourses, prerequisites)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type numCourses: int</span></span><br><span class="line"><span class="string">        :type prerequisites: List[List[int]]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.in_degree = [<span class="number">0</span>] * numCourses</span><br><span class="line">        self.edges = &#123;i: [] <span class="keyword">for</span> i <span class="keyword">in</span> range(numCourses)&#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> edge <span class="keyword">in</span> prerequisites:</span><br><span class="line">            self.in_degree[edge[<span class="number">0</span>]] += <span class="number">1</span></span><br><span class="line">            self.edges[edge[<span class="number">1</span>]].append(edge[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            can_study = self.__get_can_study()</span><br><span class="line">            <span class="keyword">if</span> can_study:</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> can_study:</span><br><span class="line">                    self.in_degree[i] = self.MAXINT</span><br><span class="line">                    <span class="keyword">for</span> j <span class="keyword">in</span> self.edges[i]:</span><br><span class="line">                        self.in_degree[j] -= <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> min(self.in_degree) == self.MAXINT</span><br></pre></td></tr></table></figure></p>
+<p>写的不是很好，但是还是过了</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/10/LC309-%E6%9C%80%E4%BD%B3%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E6%97%B6%E6%9C%BA%E5%90%AB%E5%86%B7%E5%86%BB%E6%9C%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="haitao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haitao's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/10/LC309-%E6%9C%80%E4%BD%B3%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E6%97%B6%E6%9C%BA%E5%90%AB%E5%86%B7%E5%86%BB%E6%9C%9F/" class="post-title-link" itemprop="url">LC309-最佳买卖股票时机含冷冻期</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-10 08:21:44 / Modified: 09:36:09" itemprop="dateCreated datePublished" datetime="2020-08-10T08:21:44+08:00">2020-08-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个整数数组，其中第 i 个元素代表了第 i 天的股票价格 。​</p>
+<p>设计一个算法计算出最大利润。在满足以下约束条件下，你可以尽可能地完成更多的交易（多次买卖一支股票）:</p>
+<p>你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。<br>卖出股票后，你无法在第二天买入股票 (即冷冻期为 1 天)。</p>
+<p>示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [1,2,3,0,2]</span><br><span class="line">输出: 3 </span><br><span class="line">解释: 对应的交易状态为: [买入, 卖出, 冷冻期, 买入, 卖出]</span><br></pre></td></tr></table></figure></p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown" target="_blank" rel="noopener">https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><p>这个题目有三个维度的状态，分别是：</p>
+<ul>
+<li>天数$(0,1,2,3…n-1)$</li>
+<li>十分持股$(0,1)$</li>
+<li>是否处于冷冻期$(0,1)$</li>
+</ul>
+<p>但是我们发现，持股且处于冷冻期是不可能的,也就是说<code>dp[i][1][1]</code>这个状态是不可能的，所以我们可以压缩状态空间</p>
+<script type="math/tex; mode=display">
+dp[i][j]:= prices[0:i]的闭区间内，当状态为j的时候最大收益</script><p>其中：</p>
+<script type="math/tex; mode=display">j =
 \begin{cases}
-True & \text{dp[i-1][j] || nums[i] == j || dp[i-1][j-nums[i]]}\\
-False& \text{otherwise}
-\end{cases}</script><p>初始化:</p>
+0& \text{不持有股票}\\
+1& \text{持有股票}\\
+2& \text{处于冷冻期内}\\
+\end{cases}</script><p>其状态转移如图所示：<br><img src="/2020/08/10/LC309-%E6%9C%80%E4%BD%B3%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E6%97%B6%E6%9C%BA%E5%90%AB%E5%86%B7%E5%86%BB%E6%9C%9F/E546BEA9F33399826C8500536E43D56D.png" alt="状态转移图解"></p>
+<p>则状态转移方程如下：</p>
+<script type="math/tex; mode=display">dp[i][j] =
+\begin{cases}
+max(dp[i - 1][0], dp[i - 1][1] + prices[i]) & \text{j=0}\\
+max(dp[i - 1][1], dp[i - 1][2] - prices[i]) & \text{j=1}\\
+dp[i - 1][0] & \text{j=2}\\
+\end{cases}</script><p>初始化：</p>
+<script type="math/tex; mode=display">dp[0][j] =
+\begin{cases}
+0& \text{j=0}\\
+-prices[0]& \text{j=1}\\
+0& \text{j=2}\\
+\end{cases}</script><p>输出：</p>
 <script type="math/tex; mode=display">
-dp[0][nums[0]]:=True \text{ if nums[0] < sum(nums)//2 }</script><p>最后输出</p>
-<script type="math/tex; mode=display">
-dp[-1][-1]</script><p>代码实现：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">canPartition</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> nums.__len__() == <span class="number">0</span> <span class="keyword">or</span> sum(nums) % <span class="number">2</span> == <span class="number">1</span>: <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        target = sum(nums) // <span class="number">2</span></span><br><span class="line">        dp = [[<span class="literal">False</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(target + <span class="number">1</span>)] <span class="keyword">for</span> _ <span class="keyword">in</span> range(nums.__len__())]</span><br><span class="line">        <span class="keyword">if</span> nums[<span class="number">0</span>] &lt;= target: dp[<span class="number">0</span>][nums[<span class="number">0</span>]] = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, dp.__len__()):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, dp[<span class="number">0</span>].__len__()):</span><br><span class="line">                dp[i][j] = dp[i - <span class="number">1</span>][j] <span class="keyword">or</span> nums[i] == j <span class="keyword">or</span> dp[i - <span class="number">1</span>][j - nums[i]]</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>][<span class="number">-1</span>]</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/03/LC142-%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8-II/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="haitao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Haitao's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/03/LC142-%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8-II/" class="post-title-link" itemprop="url">LC142-环形链表 II</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-08-03 20:37:12 / Modified: 20:42:01" itemprop="dateCreated datePublished" datetime="2020-08-03T20:37:12+08:00">2020-08-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。</p>
-<p>为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。</p>
-<p>说明：不允许修改给定的链表。</p>
-<p>示例 1：<br><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist.png" alt="alt"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：head &#x3D; [3,2,0,-4], pos &#x3D; 1</span><br><span class="line">输出：tail connects to node index 1</span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点。</span><br></pre></td></tr></table></figure></p>
-<p>示例 2：<br><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test2.png" alt="alt"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：head &#x3D; [1,2], pos &#x3D; 0</span><br><span class="line">输出：tail connects to node index 0</span><br><span class="line">解释：链表中有一个环，其尾部连接到第一个节点。</span><br></pre></td></tr></table></figure></p>
-<p>示例 3：<br><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test3.png" alt="alt"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：head &#x3D; [1], pos &#x3D; -1</span><br><span class="line">输出：no cycle</span><br><span class="line">解释：链表中没有环。</span><br></pre></td></tr></table></figure><br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/linked-list-cycle-ii" target="_blank" rel="noopener">https://leetcode-cn.com/problems/linked-list-cycle-ii</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="代码与思路"><a href="#代码与思路" class="headerlink" title="代码与思路"></a>代码与思路</h1><p>感觉这个题目用hashset，十分容易解决<br>一次就过了，爽~<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"># class ListNode(object):</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.next = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">detectCycle</span><span class="params">(self, head)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type head: ListNode</span></span><br><span class="line"><span class="string">        :rtype: ListNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        hash_set,curr_node = set(),head</span><br><span class="line">        <span class="keyword">while</span> curr_node:</span><br><span class="line">            <span class="keyword">if</span> curr_node <span class="keyword">in</span> hash_set:</span><br><span class="line">                <span class="keyword">return</span> curr_node</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                hash_set.add(curr_node)</span><br><span class="line">            curr_node = curr_node.next</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/03/LC200-%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="haitao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Haitao's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/03/LC200-%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/" class="post-title-link" itemprop="url">LC200-岛屿数量</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-08-03 12:48:32" itemprop="dateCreated datePublished" datetime="2020-08-03T12:48:32+08:00">2020-08-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-08 09:46:31" itemprop="dateModified" datetime="2020-08-08T09:46:31+08:00">2020-08-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个由 ‘1’（陆地）和 ‘0’（水）组成的的二维网格，请你计算网格中岛屿的数量。</p>
-<p>岛屿总是被水包围，并且每座岛屿只能由水平方向或竖直方向上相邻的陆地连接形成。</p>
-<p>此外，你可以假设该网格的四条边均被水包围。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">示例 1:</span><br><span class="line"></span><br><span class="line">输入:</span><br><span class="line">[</span><br><span class="line">[&#39;1&#39;,&#39;1&#39;,&#39;1&#39;,&#39;1&#39;,&#39;0&#39;],</span><br><span class="line">[&#39;1&#39;,&#39;1&#39;,&#39;0&#39;,&#39;1&#39;,&#39;0&#39;],</span><br><span class="line">[&#39;1&#39;,&#39;1&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;],</span><br><span class="line">[&#39;0&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;]</span><br><span class="line">]</span><br><span class="line">输出: 1</span><br><span class="line">示例 2:</span><br><span class="line"></span><br><span class="line">输入:</span><br><span class="line">[</span><br><span class="line">[&#39;1&#39;,&#39;1&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;],</span><br><span class="line">[&#39;1&#39;,&#39;1&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;],</span><br><span class="line">[&#39;0&#39;,&#39;0&#39;,&#39;1&#39;,&#39;0&#39;,&#39;0&#39;],</span><br><span class="line">[&#39;0&#39;,&#39;0&#39;,&#39;0&#39;,&#39;1&#39;,&#39;1&#39;]</span><br><span class="line">]</span><br><span class="line">输出: 3</span><br><span class="line">解释: 每座岛屿只能由水平和&#x2F;或竖直方向上相邻的陆地连接而成。</span><br></pre></td></tr></table></figure>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/number-of-islands" target="_blank" rel="noopener">https://leetcode-cn.com/problems/number-of-islands</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><p>核心的想法是这样的</p>
-<h4 id="1-程序主逻辑"><a href="#1-程序主逻辑" class="headerlink" title="1.程序主逻辑"></a>1.程序主逻辑</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(rows)</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(col)</span><br><span class="line">            <span class="keyword">if</span> grid[i][j]=<span class="string">'1'</span>:</span><br><span class="line">                island_count +=<span class="number">1</span></span><br><span class="line">                dfs(i,j)</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"><span class="comment">#### 2. 深度优先搜索dfs的实现</span></span><br><span class="line">```python</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(i,j)</span>：</span></span><br><span class="line">        if grid[i][j]==0 or OutOfRange :return</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 做标注</span></span><br><span class="line">            grid[i][j]=<span class="number">0</span></span><br><span class="line">            dfs(i<span class="number">-1</span>,j)</span><br><span class="line">            dfs(i+<span class="number">1</span>,j)</span><br><span class="line">            dfs(i,j<span class="number">-1</span>)</span><br><span class="line">            dfs(i,j+<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<h4 id="3-具体的代码实现"><a href="#3-具体的代码实现" class="headerlink" title="3.具体的代码实现"></a>3.具体的代码实现</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.grid = <span class="literal">None</span></span><br><span class="line">        self.row_num = <span class="number">0</span></span><br><span class="line">        self.col_num = <span class="number">0</span></span><br><span class="line">        self.islands_num = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__dfs</span><span class="params">(self, i, j)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="number">0</span> &lt;= i &lt;= self.row_num - <span class="number">1</span> <span class="keyword">and</span> <span class="number">0</span> &lt;= j &lt;= self.col_num - <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">if</span> self.grid[i][j] == <span class="string">'0'</span>:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.grid[i][j] = <span class="string">'0'</span></span><br><span class="line">                self.__dfs(i - <span class="number">1</span>, j)</span><br><span class="line">                self.__dfs(i + <span class="number">1</span>, j)</span><br><span class="line">                self.__dfs(i, j - <span class="number">1</span>)</span><br><span class="line">                self.__dfs(i, j + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">numIslands</span><span class="params">(self, grid)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type grid: List[List[str]]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> grid: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        self.grid, self.row_num, self.col_num = grid, grid.__len__(), grid[<span class="number">0</span>].__len__()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.row_num):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(self.col_num):</span><br><span class="line">                <span class="keyword">if</span> self.grid[i][j] == <span class="string">"1"</span>:</span><br><span class="line">                    self.islands_num += <span class="number">1</span></span><br><span class="line">                    self.__dfs(i, j)</span><br><span class="line">        <span class="keyword">return</span> self.islands_num</span><br></pre></td></tr></table></figure>
-<p>今天生日竟然这么顺利<br>一把过，舒服~<br>( •̀ ω •́ )y</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/03/LC234-%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="haitao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Haitao's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/03/LC234-%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">LC234-回文链表</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-08-03 09:44:10 / Modified: 09:52:21" itemprop="dateCreated datePublished" datetime="2020-08-03T09:44:10+08:00">2020-08-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>请判断一个链表是否为回文链表。</p>
-<p>示例 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入: 1-&gt;2</span><br><span class="line">输出: false</span><br><span class="line">示例 2:</span><br><span class="line"></span><br><span class="line">输入: 1-&gt;2-&gt;2-&gt;1</span><br><span class="line">输出: true</span><br></pre></td></tr></table></figure><br>进阶：</p>
-<ul>
-<li>你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？</li>
-</ul>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/palindrome-linked-list" target="_blank" rel="noopener">https://leetcode-cn.com/problems/palindrome-linked-list</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。 </p>
-<h1 id="思路与代码"><a href="#思路与代码" class="headerlink" title="思路与代码"></a>思路与代码</h1><p>直接用链表保存然后看是否回文<br>代码实现比较简答，如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"># class ListNode(object):</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.next = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isPalindrome</span><span class="params">(self, head)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type head: ListNode</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        tmp_list,curr_node = [],head</span><br><span class="line">        <span class="keyword">while</span> curr_node:</span><br><span class="line">            tmp_list.append(curr_node.val)</span><br><span class="line">            curr_node = curr_node.next</span><br><span class="line">        <span class="keyword">return</span> tmp_list == tmp_list[::<span class="number">-1</span>]</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/03/LC141-%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="haitao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Haitao's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/03/LC141-%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">LC141-环形链表</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-08-03 07:35:45 / Modified: 07:47:09" itemprop="dateCreated datePublished" datetime="2020-08-03T07:35:45+08:00">2020-08-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">刷题笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个链表，判断链表中是否有环。</p>
-<p>为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。</p>
-<p>示例 1：<br><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist.png" alt="alt"><br>输入：head = [3,2,0,-4], pos = 1<br>输出：true<br>解释：链表中有一个环，其尾部连接到第二个节点。</p>
-<p>示例 2：<br><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test2.png" alt="alt"><br>输入：head = [1,2], pos = 0<br>输出：true<br>解释：链表中有一个环，其尾部连接到第一个节点。</p>
-<p>示例 3：<br><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test3.png" alt="alt"><br>输入：head = [1], pos = -1<br>输出：false<br>解释：链表中没有环。</p>
-<p>进阶：</p>
-<ul>
-<li>你能用 O(1)（即，常量）内存解决此问题吗？</li>
-</ul>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/linked-list-cycle" target="_blank" rel="noopener">https://leetcode-cn.com/problems/linked-list-cycle</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<h1 id="代码与思考"><a href="#代码与思考" class="headerlink" title="代码与思考"></a>代码与思考</h1><h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><p>方法超级简单，一把过，( •̀ ω •́ )y<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"># class ListNode(object):</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.next = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">hasCycle</span><span class="params">(self, head)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type head: ListNode</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        curr_node,hash_map=head,set()</span><br><span class="line">        <span class="keyword">while</span> curr_node:</span><br><span class="line">            <span class="keyword">if</span> curr_node <span class="keyword">in</span> hash_map:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                hash_map.add(curr_node)</span><br><span class="line">            curr_node = curr_node.next</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure></p>
+\max\{dp[-1]\}</script><p>代码实现：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxProfit</span><span class="params">(self, prices)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type prices: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> prices.__len__() &lt; <span class="number">2</span>: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        dp = [[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">3</span>)] <span class="keyword">for</span> _ <span class="keyword">in</span> range(prices.__len__())]</span><br><span class="line">        dp[<span class="number">0</span>] = [<span class="number">0</span>, -prices[<span class="number">0</span>], <span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, prices.__len__()):</span><br><span class="line">            dp[i] = [max(dp[i - <span class="number">1</span>][<span class="number">0</span>], dp[i - <span class="number">1</span>][<span class="number">1</span>] + prices[i]), max(dp[i - <span class="number">1</span>][<span class="number">1</span>], dp[i - <span class="number">1</span>][<span class="number">2</span>] - prices[i]), dp[i - <span class="number">1</span>][<span class="number">0</span>]]</span><br><span class="line">        <span class="keyword">return</span> max(dp[<span class="number">-1</span>])</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -1079,7 +1019,7 @@ dp[-1][-1]</script><p>代码实现：<br><figure class="highlight python"><table
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1145,7 +1085,7 @@ dp[-1][-1]</script><p>代码实现：<br><figure class="highlight python"><table
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">89</span>
+          <span class="site-state-item-count">101</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1158,7 +1098,7 @@ dp[-1][-1]</script><p>代码实现：<br><figure class="highlight python"><table
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-count">36</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
